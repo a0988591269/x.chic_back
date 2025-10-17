@@ -12,29 +12,26 @@ namespace MyApp.Infrastructure.Persistence
 {
     public interface IDbConnectionFactory
     {
-        IDbConnection CreateConnection(DatabaseKey dbKey);
+        IDbConnection CreateConnection(DatabaseKey key);
     }
 
     public class DbConnectionFactory : IDbConnectionFactory
     {
         private readonly IConfiguration _config;
 
-        public DbConnectionFactory(IConfiguration config)
-        {
-            _config = config;
-        }
+        public DbConnectionFactory(IConfiguration config) => _config = config;
 
-        public IDbConnection CreateConnection(DatabaseKey type)
+        public IDbConnection CreateConnection(DatabaseKey key)
         {
-            return type switch
+            return key switch
             {
-                DatabaseKey.Default =>
-                    new SqlConnection(_config.GetConnectionString("DefaultConnection")),
-                DatabaseKey.Test =>
-                    new SqlConnection(_config.GetConnectionString("TestConnection")),
-                //DatabaseKey.Test =>
-                //    new MySqlConnection(_config.GetConnectionString("TestConnection")),
-                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+                DatabaseKey.Default => new SqlConnection(
+                    _config.GetConnectionString("DefaultConnection")),
+                DatabaseKey.Test => new SqlConnection(
+                    _config.GetConnectionString("TestConnection")),
+                //DatabaseType.MySql => new MySqlConnection(
+                //    _config.GetConnectionString("MySqlConnection")),
+                _ => throw new ArgumentOutOfRangeException($"Connection string '{nameof(key)}' not found.")
             };
         }
     }

@@ -12,7 +12,9 @@ builder.Services.AddSwaggerGen();
 
 #region 自定義服務
 builder.Services.ConfigureCors();
-builder.Services.AddDefaultConnection(builder.Configuration);
+// 單一資料庫
+builder.Services.AddContext(builder.Configuration);
+builder.Services.AddMultipleContext()
 #endregion
 
 var app = builder.Build();

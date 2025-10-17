@@ -6,9 +6,16 @@ namespace MyApp.Infrastructure.DependencyInjection
 {
     public static class ServiceRegistration
     {
-        public static IServiceCollection AddConnection(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddContext(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDefaultConn(config);
+            services.AddDbConnection(config);
+            //services.AddScoped<IPlayerRepository, PlayerRepository>();
+            return services;
+        }
+
+        public static IServiceCollection AddMultipleContext(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
             //services.AddScoped<IPlayerRepository, PlayerRepository>();
             return services;
         }

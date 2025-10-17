@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MyApp.Infrastructure.Persistence
 {
-    public static class AppDbContext
+    public static class DbConnectionModule
     {
-        public static IServiceCollection AddDefaultConn(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddDbConnection(this IServiceCollection services, IConfiguration config)
         {
             //Dapper 是「輕量、無 context 的 ORM」，所以建議使用 Transient 是最安全的選擇
             // _ 表示未使用參數。
