@@ -13,8 +13,10 @@ builder.Services.AddSwaggerGen();
 #region 自定義服務
 builder.Services.ConfigureCors();
 // 單一資料庫
-builder.Services.AddContext(builder.Configuration);
-builder.Services.AddMultipleContext()
+//builder.Services.AddDapperSingle(builder.Configuration);
+// 多重資料庫
+builder.Services.AddDapperMultiple(builder.Configuration);
+builder.Services.AddControllers();
 #endregion
 
 var app = builder.Build();

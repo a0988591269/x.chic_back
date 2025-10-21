@@ -1,21 +1,28 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyApp.Infrastructure.Persistence;
+using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.DependencyInjection
 {
     public static class ServiceRegistration
     {
-        public static IServiceCollection AddContext(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddDapperSingle(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbConnection(config);
             //services.AddScoped<IPlayerRepository, PlayerRepository>();
             return services;
         }
 
-        public static IServiceCollection AddMultipleContext(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddDapperMultiple(this IServiceCollection services, IConfiguration config)
         {
-            services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
+            // EF Core 建表
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+
+            // Dapper 查資料
+            services.AddSingleton<IDapperConnectionFactory, DapperConnectionFactory>();
             //services.AddScoped<IPlayerRepository, PlayerRepository>();
             return services;
         }

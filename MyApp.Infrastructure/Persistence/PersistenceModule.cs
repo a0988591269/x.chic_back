@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MyApp.Infrastructure.Persistence
 {
-    public static class DbConnectionModule
+    public static class PersistenceModule
     {
         public static IServiceCollection AddDbConnection(this IServiceCollection services, IConfiguration config)
         {

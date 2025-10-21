@@ -1,20 +1,15 @@
 ﻿using MyApp.Domain.Enums;
-using MyApp.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
+using MyApp.Infrastructure.Persistence.Contexts;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
     public abstract class BaseRepository
     {
-        private readonly IDbConnectionFactory _factory;
+        private readonly IDapperConnectionFactory _factory;
         private readonly DatabaseKey _db;
 
-        protected BaseRepository(IDbConnectionFactory factory, DatabaseKey db)
+        protected BaseRepository(IDapperConnectionFactory factory, DatabaseKey db)
         {
             _factory = factory;
             _db = db;
@@ -24,6 +19,29 @@ namespace MyApp.Infrastructure.Repositories
         {
             using var conn = _factory.CreateConnection(_db);
             return await func(conn);
+        }
+
+        protected async Task WithConnectionAsync(Func<IDbConnection, Task> action)
+        {
+            using var conn = _factory.CreateConnection(_db);
+            await action(conn);
+        }
+
+        protected async Task<T> WithTransactionAsync<T>(Func<IDbConnection, IDbTransaction, Task<T>> func)
+        {
+            using var conn = _factory.CreateConnection(_db);
+            using var tran = conn.BeginTransaction();
+            try
+            {
+                var result = await func(conn, tran);
+                tran.Commit();
+                return result;
+            }
+            catch
+            {
+                tran.Rollback();
+                throw;
+            }
         }
     }
 }
