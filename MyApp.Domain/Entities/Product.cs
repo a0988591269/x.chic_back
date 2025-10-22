@@ -48,7 +48,7 @@ namespace MyApp.Domain.Entities
         public int CategoryId { get; set; }
 
         // Navigation Property
-        public Category? Category { get; set; }
+        public Category Category { get; set; } = new Category();
 
         public int? ImageId { get; set; }
     }

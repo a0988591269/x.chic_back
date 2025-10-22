@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyApp.Domain.Interfaces;
 using MyApp.Infrastructure.Persistence;
 using MyApp.Infrastructure.Persistence.Contexts;
+using MyApp.Infrastructure.Repositories;
 
 namespace MyApp.Infrastructure.DependencyInjection
 {
@@ -15,7 +17,7 @@ namespace MyApp.Infrastructure.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddDapperMultiple(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration config)
         {
             // EF Core 建表
             services.AddDbContext<AppDbContext>(options =>
@@ -23,7 +25,8 @@ namespace MyApp.Infrastructure.DependencyInjection
 
             // Dapper 查資料
             services.AddSingleton<IDapperConnectionFactory, DapperConnectionFactory>();
-            //services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             return services;
         }
     }

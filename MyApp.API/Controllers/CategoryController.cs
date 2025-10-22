@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MyApp.API.Models;
 using MyApp.Application.Interfaces;
 
 namespace MyApp.API.Controllers
@@ -8,16 +8,27 @@ namespace MyApp.API.Controllers
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _category;
-        public CategoryController(ICategoryService category)
+        private readonly ICategoryService _categoryService;
+
+        public CategoryController(ICategoryService categoryService)
         {
-            _category = category;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
-        public IEnumerable<Category> Get()
+        public async Task<ActionResult<IEnumerable<CategoryModel>>> Get()
         {
+            var category = await _categoryService.GetAllAsync();
 
+            // DTO -> Model
+            var response = category.Select(c => new CategoryModel
+            {
+                CategoryId = c.CategoryId,
+                CategoryName = c.CategoryName,
+                CategoryEngName = c.CategoryEngName
+            });
+
+            return Ok(response);
         }
     }
 }

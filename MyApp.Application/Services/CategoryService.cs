@@ -1,23 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MyApp.Domain.Entities;
+﻿using MyApp.Application.DTOs;
+using MyApp.Application.Interfaces;
+using MyApp.Domain.Interfaces;
 using MyApp.Infrastructure.Repositories;
 
 namespace MyApp.Application.Services
 {
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
-        private readonly CategoryRepository _repo;
+        private readonly ICategoryRepository _repo;
 
-        public CategoryService(CategoryRepository repo)
+        public CategoryService(ICategoryRepository repo)
         {
             _repo = repo;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoryAsync()
-            => await _repo.GetAllAsync();
+        public async Task<IEnumerable<CategoryDto>> GetAllAsync()
+        {
+            var result = await _repo.GetAllAsync();
+
+            // Entity -> DTO
+            return result.Select(c => new CategoryDto
+            {
+                CategoryId = c.CategoryId,
+                CategoryName = c.CategoryName,
+                CategoryEngName = c.CategoryEngName
+            });
+        }
     }
 }

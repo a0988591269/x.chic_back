@@ -1,4 +1,5 @@
 using MyApp.API.Extensions;
+using MyApp.Application.DependencyInjection;
 using MyApp.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +15,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureCors();
 // 單一資料庫
 //builder.Services.AddDapperSingle(builder.Configuration);
-// 多重資料庫
-builder.Services.AddDapperMultiple(builder.Configuration);
+// 註冊 Application 層 DI
+builder.Services.AddApplicationServices(builder.Configuration);
+// 註冊 Infrastructure 層 DI
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddControllers();
 #endregion
 
