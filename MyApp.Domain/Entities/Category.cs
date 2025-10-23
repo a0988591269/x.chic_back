@@ -17,6 +17,10 @@ namespace MyApp.Domain.Entities
         [StringLength(200)]
         public string? CategoryEngName { get; set; }
 
+        [Required]
+        [StringLength(50)]
+        public string CategoryUrl { get; set; } = string.Empty;
+
         // Navigation Property
         public ICollection<Product>? Products { get; set; }
     }
