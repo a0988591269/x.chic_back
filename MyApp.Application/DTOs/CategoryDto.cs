@@ -7,5 +7,7 @@
         public string CategoryName { get; set; } = string.Empty;
 
         public string? CategoryEngName { get; set; }
+
+        public string CategoryUrl { get; set; } = string.Empty;
     }
 }

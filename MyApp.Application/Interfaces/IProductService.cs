@@ -9,10 +9,5 @@ namespace MyApp.Application.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetAllAsync();
-
-        Task<ProductDto?> GetProductAsync(int productId);
-
-        Task<IEnumerable<ProductDto>> GetProductByCategoryId(int categoryId);
     }
 }

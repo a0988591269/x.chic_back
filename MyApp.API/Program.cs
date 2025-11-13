@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Hosting;
 using MyApp.API.Extensions;
 using MyApp.Application.DependencyInjection;
 using MyApp.Infrastructure.DependencyInjection;
+using MyApp.Infrastructure.Persistence.Seed.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,7 @@ var app = builder.Build();
 
 #region 自定義運行
 app.UseCors("AllowOrigin");
+await app.SeedDataAsync();
 #endregion
 
 // Configure the HTTP request pipeline.
