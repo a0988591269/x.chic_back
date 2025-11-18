@@ -11,13 +11,22 @@ namespace MyApp.Domain.Entities
     [Table("Roles")]
     public class Role
     {
+        /// <summary>
+        /// 主鍵 (PK)
+        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoleId { get; set; }
 
+        /// <summary>
+        /// 角色名稱（如 Admin）
+        /// </summary>
         [Required, StringLength(100)]
         public string Name { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 角色描述 / 用途說明
+        /// </summary>
         [StringLength(500)]
         public string? Description { get; set; }
 

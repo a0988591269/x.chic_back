@@ -12,16 +12,28 @@ namespace MyApp.Domain.Entities
     [Table("ProductOptions")]
     public class ProductOption
     {
+        /// <summary>
+        /// 主鍵
+        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductOptionId { get; set; }
 
+        /// <summary>
+        /// 外部主鍵 (FK)
+        /// </summary>
         [Required]
         public long ProductId { get; set; }
 
+        /// <summary>
+        /// 規格名稱（Color / Size）
+        /// </summary>
         [Required, StringLength(100)]
         public string Name { get; set; } = string.Empty; // Color/Size
 
+        /// <summary>
+        /// 選項排序
+        /// </summary>
         public int SortOrder { get; set; } = 0;
 
         public Product? Product { get; set; }
