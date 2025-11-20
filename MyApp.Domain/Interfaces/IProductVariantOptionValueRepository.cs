@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MyApp.Domain.Interfaces
 {
-    public interface IProductRepository
+    public interface IProductVariantOptionValueRepository
     {
-        Task<IEnumerable<Product>> GetAllAsync();
+        Task<IEnumerable<ProductVariantOptionValue>> GetAllAsync();
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MyApp.Domain.Interfaces
 {
-    public interface IProductRepository
+    public interface IUserRoleRepository
     {
-        Task<IEnumerable<Product>> GetAllAsync();
+        Task<IEnumerable<UserRole>> GetAllAsync();
     }
 }

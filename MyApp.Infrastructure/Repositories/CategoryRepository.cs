@@ -19,12 +19,5 @@ namespace MyApp.Infrastructure.Repositories
             return await WithConnectionAsync(conn =>
                 conn.QueryAsync<Category>(" SELECT * FROM Categories "));
         }
-
-        public async Task<int> AddAsync(Category entity)
-        {
-            const string sql = @" INSERT INTO Categories (CategoryName, CategoryEngName)
-                                    VALUES (@CategoryName, @CategoryEngName) ";
-            return await WithConnectionAsync(conn => conn.ExecuteAsync(sql, entity));
-        }
     }
 }

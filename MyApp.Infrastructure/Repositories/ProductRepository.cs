@@ -1,5 +1,4 @@
 ﻿using MyApp.Domain.Enums;
-using MyApp.Domain.Interfaces;
 using MyApp.Infrastructure.Persistence.Contexts;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using MyApp.Domain.Entities;
+using MyApp.Domain.Interfaces;
 
 namespace MyApp.Infrastructure.Repositories
 {
@@ -20,20 +20,6 @@ namespace MyApp.Infrastructure.Repositories
         {
             return await WithConnectionAsync(conn =>
                 conn.QueryAsync<Product>(" SELECT * FROM Products "));
-        }
-
-        public async Task<Product?> GetProductAsync(int productId)
-        {
-            return await WithConnectionAsync(conn =>
-                conn.QuerySingleOrDefaultAsync<Product>(" SELECT * FROM Products WHERE ProductId = @ProductId ",
-                    new { ProductId = productId }));
-        }
-
-        public async Task<IEnumerable<Product>> GetProductByCategoryIdAsync(int categoryId)
-        {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Product>(" SELECT * FROM Products WHERE CategoryId = @CategoryId",
-                    new { CategoryId = categoryId }));
         }
     }
 }

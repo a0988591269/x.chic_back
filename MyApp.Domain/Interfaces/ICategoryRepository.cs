@@ -5,7 +5,5 @@ namespace MyApp.Domain.Interfaces
     public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetAllAsync();
-
-        Task<int> AddAsync(Category entity);
     }
 }

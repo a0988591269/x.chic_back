@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MyApp.Domain.Interfaces
 {
-    public interface IProductRepository
+    public interface IProductVariantImageRepository
     {
-        Task<IEnumerable<Product>> GetAllAsync();
+        Task<IEnumerable<ProductVariantImage>> GetAllAsync();
     }
 }
