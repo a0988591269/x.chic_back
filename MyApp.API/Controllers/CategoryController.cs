@@ -4,6 +4,7 @@ using MyApp.Application.Interfaces;
 
 namespace MyApp.API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "Category")]
     [ApiController]
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase

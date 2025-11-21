@@ -22,6 +22,7 @@ builder.Services.AddApplicationServices(builder.Configuration);
 // 註冊 Infrastructure 層 DI
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddControllers();
+builder.Services.AddSwaggerUI_v1();
 #endregion
 
 var app = builder.Build();
@@ -29,6 +30,7 @@ var app = builder.Build();
 #region 自定義運行
 app.UseCors("AllowOrigin");
 await app.SeedDataAsync();
+app.UseSwaggerUI_v1();
 #endregion
 
 // Configure the HTTP request pipeline.

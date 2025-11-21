@@ -6,6 +6,7 @@ using MyApp.Application.Services;
 
 namespace MyApp.API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "Product")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
