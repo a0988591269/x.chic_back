@@ -14,22 +14,28 @@ namespace MyApp.Domain.Entities
         public int CategoryId { get; set; }
 
         /// <summary>
-        /// 英文代稱 / slug，用於 URL
-        /// </summary>
-        [Required, StringLength(100)]
-        public string CategoryEngName { get; set; } = string.Empty;
-
-        /// <summary>
         /// 顯示用名稱（中文或其他）
         /// </summary>
         [Required, StringLength(100)]
         public string CategoryName { get; set; } = string.Empty;
 
         /// <summary>
+        /// 顯示用名稱（英文或其他）
+        /// </summary>
+        [Required, StringLength(100)]
+        public string CategoryEngName { get; set; } = string.Empty;
+
+        /// <summary>
         /// 分類描述 / SEO 用
         /// </summary>
         [StringLength(500)]
         public string? Description { get; set; }
+
+        /// <summary>
+        /// Slug，用於 URL
+        /// </summary>
+        [Required, StringLength(100)]
+        public string Slug { get; set; } = string.Empty;
 
         public ICollection<Product>? Products { get; set; }
     }
