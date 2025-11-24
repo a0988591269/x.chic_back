@@ -23,7 +23,10 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
                 ShortDescription = "潮感寬版短袖上衣",
                 LongDescription = "高磅數棉質、舒適不悶熱，日常百搭。",
                 CategoryId = topCategoryId,
-                IsActive = true
+                IsActive = true,
+                IsHot = true,
+                IsNew = true,
+                IsRecommended = true,
             };
 
             context.Products.Add(product);
@@ -53,6 +56,7 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             // --- Variants (White×M, White×L, Black×M, Black×L) ---
             var variants = new List<ProductVariant>();
             foreach (var color in colors)
+            {
                 foreach (var size in sizes)
                 {
                     variants.Add(new ProductVariant
@@ -60,10 +64,12 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
                         ProductId = product.ProductId,
                         Sku = $"{product.ProductId}-{color.Value}-{size.Value}",
                         Price = 490m,
+                        DiscountPrice = 390m,
                         StockQty = 20,
                         IsActive = true
                     });
                 }
+            }
 
             context.ProductVariants.AddRange(variants);
             await context.SaveChangesAsync();

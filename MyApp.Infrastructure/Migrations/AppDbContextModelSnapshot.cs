@@ -109,7 +109,7 @@ namespace MyApp.Infrastructure.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.HasIndex("CategoryEngName")
+                    b.HasIndex("Slug")
                         .IsUnique();
 
                     b.ToTable("Categories", (string)null);
@@ -357,6 +357,15 @@ namespace MyApp.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsHot")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRecommended")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LongDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -364,6 +373,9 @@ namespace MyApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<float>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -373,6 +385,9 @@ namespace MyApp.Infrastructure.Migrations
                     b.Property<string>("ShortDescription")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("TotalSales")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -453,6 +468,9 @@ namespace MyApp.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
+                    b.Property<decimal?>("DiscountPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -482,10 +500,12 @@ namespace MyApp.Infrastructure.Migrations
 
                     b.HasKey("ProductVariantId");
 
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("Sku")
                         .IsUnique();
+
+                    b.HasIndex("ProductId", "DiscountPrice");
+
+                    b.HasIndex("ProductId", "Price");
 
                     b.ToTable("ProductVariants", (string)null);
                 });
@@ -576,6 +596,61 @@ namespace MyApp.Infrastructure.Migrations
                     b.HasIndex("PaymentId");
 
                     b.ToTable("Refunds", (string)null);
+                });
+
+            modelBuilder.Entity("MyApp.Domain.Entities.Review", b =>
+                {
+                    b.Property<long>("ReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ReviewId"));
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<long>("OrderItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductVariantId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("OrderItemId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductVariantId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ProductId", "Rating");
+
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("MyApp.Domain.Entities.Role", b =>
@@ -852,6 +927,41 @@ namespace MyApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
+            modelBuilder.Entity("MyApp.Domain.Entities.Review", b =>
+                {
+                    b.HasOne("MyApp.Domain.Entities.OrderItem", "OrderItem")
+                        .WithMany()
+                        .HasForeignKey("OrderItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MyApp.Domain.Entities.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MyApp.Domain.Entities.ProductVariant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("ProductVariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyApp.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("OrderItem");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Variant");
+                });
+
             modelBuilder.Entity("MyApp.Domain.Entities.RolePermission", b =>
                 {
                     b.HasOne("MyApp.Domain.Entities.Role", "Role")
@@ -904,6 +1014,8 @@ namespace MyApp.Infrastructure.Migrations
             modelBuilder.Entity("MyApp.Domain.Entities.Product", b =>
                 {
                     b.Navigation("Options");
+
+                    b.Navigation("Reviews");
 
                     b.Navigation("Variants");
                 });

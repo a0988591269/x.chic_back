@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyApp.Domain.Entities
 {
     [Table("ProductVariants")]
+    // 加入索引
+    [Index(nameof(ProductId), nameof(Price))]
+    [Index(nameof(ProductId), nameof(DiscountPrice))]
     public class ProductVariant : BaseEntity
     {
         /// <summary>
@@ -35,6 +34,11 @@ namespace MyApp.Domain.Entities
         /// </summary>
         // Price precision handled in FluentConfig
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// 折扣價格
+        /// </summary>
+        public decimal? DiscountPrice { get; set; }   // 如果有折扣
 
         /// <summary>
         /// 庫存數量

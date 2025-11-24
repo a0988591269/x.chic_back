@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyApp.Domain.Entities
 {
     [Table("Categories")]
+    [Index(nameof(Slug))]
     public class Category : BaseEntity
     {
         /// <summary>

@@ -23,7 +23,9 @@ namespace MyApp.Application.Services
             {
                 CategoryId = c.CategoryId,
                 CategoryName = c.CategoryName,
-                CategoryEngName = c.CategoryEngName
+                CategoryEngName = c.CategoryEngName,
+                Description = c.Description,
+                Slug = c.Slug,
             });
         }
     }

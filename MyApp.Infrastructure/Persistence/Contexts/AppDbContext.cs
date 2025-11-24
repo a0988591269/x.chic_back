@@ -44,6 +44,7 @@ namespace MyApp.Infrastructure.Persistence.Contexts
         public DbSet<Payment> Payments => Set<Payment>();
         public DbSet<Refund> Refunds => Set<Refund>();
         public DbSet<Shipment> Shipments => Set<Shipment>();
+        public DbSet<Review> Reviews => Set<Review>();
         public DbSet<InventoryReservation> InventoryReservations => Set<InventoryReservation>();
         public DbSet<OutboxEvent> OutboxEvents => Set<OutboxEvent>();
         public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
@@ -141,7 +142,7 @@ namespace MyApp.Infrastructure.Persistence.Contexts
             {
                 b.ToTable("Categories");
                 b.HasKey(x => x.CategoryId);
-                b.HasIndex(x => x.CategoryEngName).IsUnique();
+                b.HasIndex(x => x.Slug).IsUnique();
                 b.Property(x => x.CategoryEngName).HasMaxLength(100).IsRequired();
                 b.Property(x => x.CategoryName).HasMaxLength(100).IsRequired();
                 b.Property(x => x.Description).HasMaxLength(500);
@@ -161,7 +162,7 @@ namespace MyApp.Infrastructure.Persistence.Contexts
                 b.HasOne(p => p.Category)
                     .WithMany(c => c.Products)
                     .HasForeignKey(p => p.CategoryId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict); // 這個限制是針對「刪除 Category」的行為
             });
 
             modelBuilder.Entity<ProductOption>(b =>
@@ -198,11 +199,15 @@ namespace MyApp.Infrastructure.Persistence.Contexts
                 b.HasIndex(x => x.Sku).IsUnique();
                 b.Property(x => x.Sku).HasMaxLength(100).IsRequired();
                 b.Property(x => x.Price).HasColumnType(GetDecimalColumnType()).IsRequired();
+                b.Property(x => x.DiscountPrice).HasColumnType(GetDecimalColumnType());
                 b.Property(x => x.StockQty).HasDefaultValue(0);
                 b.HasOne(v => v.Product)
                     .WithMany(p => p.Variants)
                     .HasForeignKey(v => v.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
+                // 加入索引
+                b.HasIndex(x => new { x.ProductId, x.Price });
+                b.HasIndex(x => new { x.ProductId, x.DiscountPrice });
             });
 
             modelBuilder.Entity<ProductVariantOptionValue>(b =>
@@ -354,6 +359,25 @@ namespace MyApp.Infrastructure.Persistence.Contexts
                 b.Property(x => x.PayloadBefore).HasColumnType("nvarchar(max)");
                 b.Property(x => x.PayloadAfter).HasColumnType("nvarchar(max)");
                 b.HasIndex(x => new { x.EntityType, x.EntityId });
+            });
+
+            modelBuilder.Entity<Review>(b =>
+            {
+                b.ToTable("Reviews");
+                b.HasKey(x => x.ReviewId);
+                b.Property(x => x.Rating).IsRequired();
+                b.Property(x => x.Comment).HasMaxLength(2000);
+                b.Property(x => x.UpdatedAt);
+                // 一個商品可以有很多評論
+                b.HasOne(r => r.Product).WithMany(p => p.Reviews).HasForeignKey(r => r.ProductId).OnDelete(DeleteBehavior.Restrict);
+                // 一個 User 可以對很多商品評論
+                b.HasOne(r => r.User).WithMany().HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Restrict);
+                // 一個 Order 可以對很多商品評論
+                b.HasOne(r => r.OrderItem).WithMany().HasForeignKey(r => r.OrderItemId).OnDelete(DeleteBehavior.Restrict);
+                // 非常重要：建立索引（查商品評論必用）
+                b.HasIndex(x => x.ProductId);
+                b.HasIndex(x => new { x.ProductId, x.Rating });
+                b.HasIndex(x => x.OrderItemId);
             });
         }
         #endregion

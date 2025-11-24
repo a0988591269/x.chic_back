@@ -42,11 +42,39 @@ namespace MyApp.Domain.Entities
         /// </summary>
         public bool IsActive { get; set; } = true;
 
+        /// <summary>
+        /// 商品銷量
+        /// 通常會做每日/每小時 Batch 更新銷量
+        /// </summary>
+        public int TotalSales { get; set; }
+
+        /// <summary>
+        /// 商品評分
+        /// </summary>
+        public float Rating { get; set; }
+
+        /// <summary>
+        /// 是否熱銷
+        /// </summary>
+        public bool IsHot { get; set; }
+
+        /// <summary>
+        /// 是否新品
+        /// </summary>
+        public bool IsNew { get; set; }
+
+        /// <summary>
+        /// 是否推薦
+        /// </summary>
+        public bool IsRecommended { get; set; }
+
         // navs
         public Category? Category { get; set; }
 
         public ICollection<ProductOption>? Options { get; set; }
 
         public ICollection<ProductVariant>? Variants { get; set; }
+
+        public ICollection<Review>? Reviews { get; set; }
     }
 }

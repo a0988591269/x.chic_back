@@ -27,7 +27,8 @@ namespace MyApp.API.Controllers
                 CategoryId = c.CategoryId,
                 CategoryName = c.CategoryName,
                 CategoryEngName = c.CategoryEngName,
-                CategoryUrl = c.CategoryUrl
+                Description = c.Description,
+                Slug = c.Slug,
             });
 
             return Ok(response);
