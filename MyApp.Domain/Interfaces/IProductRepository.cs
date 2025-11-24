@@ -11,6 +11,6 @@ namespace MyApp.Domain.Interfaces
     {
         Task<IEnumerable<Product>> GetAllAsync();
 
-        Task<IEnumerable<Product>> GetProductsByCategory(int CategoryId);
+        Task<Product?> GetByProductId(long productId);
     }
 }

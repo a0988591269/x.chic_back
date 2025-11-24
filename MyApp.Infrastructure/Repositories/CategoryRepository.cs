@@ -14,16 +14,22 @@ namespace MyApp.Infrastructure.Repositories
         /// <param name="factory"></param>
         public CategoryRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
-        public async Task<IEnumerable<Category>> GetCategoryBySlug(string Slug)
-        {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Category>(" SELECT TOP(1) FROM Categories WHERE Slug = @Slug ", new {Slug}));
-        }
-
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
             return await WithConnectionAsync(conn =>
                 conn.QueryAsync<Category>(" SELECT * FROM Categories "));
+        }
+
+        public async Task<Category?> GetByCategoryId(int categoryId)
+        {
+            return await WithConnectionAsync(conn =>
+                conn.QueryFirstOrDefaultAsync<Category>(" SELECT * FROM Categories WHERE CategoryId = @CategoryId ", new { CategoryId = categoryId }));
+        }
+
+        public async Task<Category?> GetBySlug(string slug)
+        {
+            return await WithConnectionAsync(conn =>
+                conn.QueryFirstOrDefaultAsync<Category>(" SELECT * FROM Categories WHERE Slug = @Slug ", new { Slug = slug }));
         }
     }
 }

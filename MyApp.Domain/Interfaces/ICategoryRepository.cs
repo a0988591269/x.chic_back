@@ -4,8 +4,10 @@ namespace MyApp.Domain.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task<IEnumerable<Category>> GetCategoryBySlug(string Slug);
-
         Task<IEnumerable<Category>> GetAllAsync();
+
+        Task<Category?> GetByCategoryId(int categoryId);
+
+        Task<Category?> GetBySlug(string slug);
     }
 }
