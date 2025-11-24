@@ -10,5 +10,7 @@ namespace MyApp.Domain.Interfaces
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetAllAsync();
+
+        Task<IEnumerable<Product>> GetProductsByCategory(int CategoryId);
     }
 }

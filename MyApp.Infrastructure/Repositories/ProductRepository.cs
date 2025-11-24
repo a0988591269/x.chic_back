@@ -21,5 +21,7 @@ namespace MyApp.Infrastructure.Repositories
             return await WithConnectionAsync(conn =>
                 conn.QueryAsync<Product>(" SELECT * FROM Products "));
         }
+
+        
     }
 }
