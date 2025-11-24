@@ -11,13 +11,13 @@ namespace MyApp.API.Extensions
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSwaggerUI_v1(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSwaggerUIExtensions(this IApplicationBuilder app)
         {
             return app.UseSwaggerUI(c =>
             {
-                //c.ConfigObject.TryItOutEnabled = true;
-                //c.ConfigObject.DisplayRequestDuration = true;
-                //c.RoutePrefix = "swagger";
+                c.ConfigObject.TryItOutEnabled = true;
+                c.ConfigObject.DisplayRequestDuration = true;
+                c.RoutePrefix = "swagger";
                 c.SwaggerEndpoint("/swagger/Category/swagger.json", "Category API");
                 c.SwaggerEndpoint("/swagger/Product/swagger.json", "Product API");
             });
@@ -27,7 +27,7 @@ namespace MyApp.API.Extensions
         /// 註冊多個 Swagger 文件
         /// </summary>
         /// <param name="services"></param>
-        public static void AddSwaggerUI_v1(this IServiceCollection services)
+        public static void AddSwaggerUIExtensions(this IServiceCollection services)
         {
             // 手動註冊多個 Swagger 文件
             //services.AddSwaggerGen(options =>
