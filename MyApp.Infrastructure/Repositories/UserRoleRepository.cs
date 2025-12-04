@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class UserRoleRepository : BaseRepository, IUserRoleRepository
     {
-        public UserRoleRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public UserRoleRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
         public async Task<IEnumerable<UserRole>> GetAllAsync()
         {
             return await WithConnectionAsync(conn =>

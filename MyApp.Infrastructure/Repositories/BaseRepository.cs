@@ -7,11 +7,11 @@ namespace MyApp.Infrastructure.Repositories
     public abstract class BaseRepository
     {
         // private = 只有 同一個 class 裡面能用，子類別不能用
-        private readonly IDapperConnectionFactory _factory;
+        private readonly IConnectionFactory _factory;
         private readonly DatabaseKey _db;
 
         // protected = 只有 同一個 assembly 裡面能用，子類別(繼承)能用
-        protected BaseRepository(IDapperConnectionFactory factory, DatabaseKey db)
+        protected BaseRepository(IConnectionFactory factory, DatabaseKey db)
         {
             _factory = factory;
             _db = db;

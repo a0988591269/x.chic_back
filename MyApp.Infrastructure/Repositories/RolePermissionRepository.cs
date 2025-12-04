@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class RolePermissionRepository : BaseRepository, IRolePermissionRepository
     {
-        public RolePermissionRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public RolePermissionRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<RolePermission>> GetAllAsync()
         {

@@ -8,7 +8,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class ProductOptionValueRepository : BaseRepository, IProductOptionValueRepository
     {
-        public ProductOptionValueRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public ProductOptionValueRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<ProductOptionValue>> GetAllAsync()
         {

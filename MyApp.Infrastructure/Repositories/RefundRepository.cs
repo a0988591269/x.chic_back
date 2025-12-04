@@ -8,7 +8,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class RefundRepository: BaseRepository, IRefundRepository
     {
-        public RefundRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public RefundRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<Refund>> GetAllAsync()
         {

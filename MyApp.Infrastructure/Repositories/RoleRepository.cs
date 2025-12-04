@@ -8,7 +8,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class RoleRepository:BaseRepository, IRoleRepository
     {
-        public RoleRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public RoleRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<Role>> GetAllAsync()
         {

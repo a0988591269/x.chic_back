@@ -8,7 +8,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class ProductVariantImageRepository: BaseRepository, IProductVariantImageRepository
     {
-        public ProductVariantImageRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public ProductVariantImageRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<ProductVariantImage>> GetAllAsync()
         {

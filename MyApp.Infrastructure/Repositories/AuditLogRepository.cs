@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class AuditLogRepository : BaseRepository, IAuditLogRepository
     {
-        public AuditLogRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public AuditLogRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<AuditLog>> GetAllAsync()
         {

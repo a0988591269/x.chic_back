@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class OrderItemRepository : BaseRepository, IOrderItemRepository
     {
-        public OrderItemRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public OrderItemRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<OrderItem>> GetAllAsync()
         {

@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class InventoryReservationRepository : BaseRepository, IInventoryReservationRepository
     {
-        public InventoryReservationRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public InventoryReservationRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<InventoryReservation>> GetAllAsync()
         {

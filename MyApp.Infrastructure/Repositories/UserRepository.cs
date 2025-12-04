@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        public UserRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public UserRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {

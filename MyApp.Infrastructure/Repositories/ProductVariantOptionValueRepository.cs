@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class ProductVariantOptionValueRepository: BaseRepository, IProductVariantOptionValueRepository
     {
-        public ProductVariantOptionValueRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public ProductVariantOptionValueRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<ProductVariantOptionValue>> GetAllAsync()
         {

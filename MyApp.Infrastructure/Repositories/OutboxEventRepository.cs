@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class OutboxEventRepository : BaseRepository, IOutboxEventRepository
     {
-        public OutboxEventRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public OutboxEventRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<OutboxEvent>> GetAllAsync()
         {

@@ -14,7 +14,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class ProductVariantRepository : BaseRepository, IProductVariantRepository
     {
-        public ProductVariantRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public ProductVariantRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<ProductVariant>> GetAllAsync()
         {

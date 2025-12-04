@@ -12,12 +12,12 @@ namespace MyApp.Infrastructure.Repositories
         /// base 傳入兩個參數
         /// </summary>
         /// <param name="factory"></param>
-        public CategoryRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public CategoryRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
-        public async Task<IEnumerable<Category>> GetCategoryBySlug(string Slug)
+        public async Task<Category> GetCategoryBySlug(string Slug)
         {
             return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Category>(" SELECT TOP(1) FROM Categories WHERE Slug = @Slug ", new {Slug}));
+                conn.QueryFirstAsync<Category>(" SELECT * FROM Categories WHERE Slug = @Slug ", new {Slug}));
         }
 
         public async Task<IEnumerable<Category>> GetAllAsync()

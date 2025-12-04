@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class ShipmentRepository : BaseRepository, IShipmentRepository
     {
-        public ShipmentRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public ShipmentRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
         public async Task<IEnumerable<Shipment>> GetAllAsync()
         {
             return await WithConnectionAsync(conn =>

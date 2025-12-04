@@ -13,7 +13,7 @@ namespace MyApp.Infrastructure.Repositories
 {
     public class PaymentRepository : BaseRepository, IPaymentRepository
     {
-        public PaymentRepository(IDapperConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        public PaymentRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
 
         public async Task<IEnumerable<Payment>> GetAllAsync()
         {

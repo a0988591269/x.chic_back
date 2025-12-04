@@ -4,7 +4,7 @@ namespace MyApp.Domain.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task<IEnumerable<Category>> GetCategoryBySlug(string Slug);
+        Task<Category> GetCategoryBySlug(string Slug);
 
         Task<IEnumerable<Category>> GetAllAsync();
     }

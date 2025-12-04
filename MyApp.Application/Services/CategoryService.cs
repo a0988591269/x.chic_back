@@ -26,6 +26,7 @@ namespace MyApp.Application.Services
                 CategoryEngName = c.CategoryEngName,
                 Description = c.Description,
                 Slug = c.Slug,
+
             });
         }
     }

@@ -8,7 +8,7 @@ namespace MyApp.Infrastructure.Persistence.Contexts
     /// <summary>
     /// 介面
     /// </summary>
-    public interface IDapperConnectionFactory
+    public interface IConnectionFactory
     {
         IDbConnection CreateConnection(DatabaseKey key);
     }
@@ -16,11 +16,11 @@ namespace MyApp.Infrastructure.Persistence.Contexts
     /// <summary>
     /// 實作
     /// </summary>
-    public class DapperConnectionFactory : IDapperConnectionFactory
+    public class ConnectionFactory : IConnectionFactory
     {
         private readonly IConfiguration _config;
 
-        public DapperConnectionFactory(IConfiguration config) => _config = config;
+        public ConnectionFactory(IConfiguration config) => _config = config;
 
         public IDbConnection CreateConnection(DatabaseKey key)
         {
