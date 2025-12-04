@@ -19,9 +19,14 @@ namespace MyApp.Infrastructure.Repositories
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Product>(" SELECT * FROM Products "));
+                conn.QueryAsync<Product>(" SELECT * FROM Products; "));
         }
 
-        
+        public async Task<Product?> GetByProductId(long productId)
+        {
+            var sql = @" SELECT * FROM Products WHERE ProductId = @ProductId; ";
+            return await WithConnectionAsync(conn =>
+                conn.QueryFirstOrDefaultAsync<Product>(sql, new { ProductId = productId }));
+        }
     }
 }

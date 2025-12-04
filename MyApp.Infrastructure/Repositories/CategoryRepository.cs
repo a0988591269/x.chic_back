@@ -20,10 +20,10 @@ namespace MyApp.Infrastructure.Repositories
                 conn.QueryFirstAsync<Category>(" SELECT * FROM Categories WHERE Slug = @Slug ", new {Slug}));
         }
 
-        public async Task<IEnumerable<Category>> GetAllAsync()
+        public async Task<Category?> GetBySlug(string slug)
         {
             return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Category>(" SELECT * FROM Categories "));
+                conn.QueryFirstOrDefaultAsync<Category>(" SELECT * FROM Categories WHERE Slug = @Slug ", new { Slug = slug }));
         }
     }
 }

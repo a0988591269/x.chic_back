@@ -6,6 +6,6 @@ namespace MyApp.Domain.Interfaces
     {
         Task<Category> GetCategoryBySlug(string Slug);
 
-        Task<IEnumerable<Category>> GetAllAsync();
+        Task<Category?> GetBySlug(string slug);
     }
 }
