@@ -8,7 +8,7 @@ namespace MyApp.Infrastructure.Persistence.Seed
 {
     public static class DataSeeder
     {
-        public static async Task SeedAsync(AppDbContext context, ILogger logger)
+        public static async Task SeedAsync(Contexts.AppDbContext context, ILogger logger)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();

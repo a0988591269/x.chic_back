@@ -10,7 +10,7 @@ using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(Persistence.Contexts.AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

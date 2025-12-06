@@ -7,7 +7,7 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 {
     public static class CategoriesSeeder
     {
-        public static async Task Run(AppDbContext context, ILogger logger)
+        public static async Task Run(Contexts.AppDbContext context, ILogger logger)
         {
             if (await context.Categories.AnyAsync()) return;
 

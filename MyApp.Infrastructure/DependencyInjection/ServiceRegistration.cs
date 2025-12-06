@@ -19,14 +19,21 @@ namespace MyApp.Infrastructure.DependencyInjection
 
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration config)
         {
-            // EF Core 建表
+            // EF Core DbContext 注入
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
-            // Dapper 查資料
+            // EF Core 注入介面
+            services.AddScoped<IDbContext>(provider =>
+                provider.GetRequiredService<AppDbContext>());
+
+            // Dapper 注入介面
             services.AddSingleton<IConnectionFactory, ConnectionFactory>();
+
+            // Repository 注入
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+
             return services;
         }
     }

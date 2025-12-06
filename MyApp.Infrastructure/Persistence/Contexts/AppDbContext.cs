@@ -3,7 +3,7 @@ using MyApp.Domain.Entities;
 
 namespace MyApp.Infrastructure.Persistence.Contexts
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext, IDbContext
     {
         private string? _providerName;
 

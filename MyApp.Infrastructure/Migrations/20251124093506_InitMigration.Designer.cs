@@ -11,7 +11,7 @@ using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(Persistence.Contexts.AppDbContext))]
     [Migration("20251124093506_InitMigration")]
     partial class InitMigration
     {
