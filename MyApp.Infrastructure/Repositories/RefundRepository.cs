@@ -6,14 +6,20 @@ using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class RefundRepository: BaseRepository, IRefundRepository
+    public class RefundRepository : IRefundRepository
     {
-        public RefundRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public RefundRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<Refund>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Refund>(" SELECT * FROM Refunds "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<Refund>(" SELECT * FROM Refunds ");
         }
     }
 }

@@ -11,14 +11,20 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class RolePermissionRepository : BaseRepository, IRolePermissionRepository
+    public class RolePermissionRepository : IRolePermissionRepository
     {
-        public RolePermissionRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public RolePermissionRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<RolePermission>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<RolePermission>(" SELECT * FROM RolePermissions "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<RolePermission>(" SELECT * FROM RolePermissions ");
         }
     }
 }

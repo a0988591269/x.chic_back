@@ -6,14 +6,20 @@ using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class ProductVariantImageRepository: BaseRepository, IProductVariantImageRepository
+    public class ProductVariantImageRepository : IProductVariantImageRepository
     {
-        public ProductVariantImageRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public ProductVariantImageRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<ProductVariantImage>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<ProductVariantImage>(" SELECT * FROM ProductVariantImages "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<ProductVariantImage>(" SELECT * FROM ProductVariantImages ");
         }
     }
 }

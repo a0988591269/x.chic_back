@@ -24,7 +24,7 @@ namespace MyApp.Infrastructure.DependencyInjection
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
             // Dapper 查資料
-            services.AddSingleton<IConnectionFactory, DapperConnectionFactory>();
+            services.AddSingleton<IConnectionFactory, ConnectionFactory>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             return services;

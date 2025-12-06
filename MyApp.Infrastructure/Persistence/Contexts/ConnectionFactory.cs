@@ -10,7 +10,8 @@ namespace MyApp.Infrastructure.Persistence.Contexts
     /// </summary>
     public interface IConnectionFactory
     {
-        IDbConnection CreateConnection(DatabaseKey key);
+        IDbConnection GetConnection();
+        IDbConnection GetConnection_Test();
     }
 
     /// <summary>
@@ -22,18 +23,16 @@ namespace MyApp.Infrastructure.Persistence.Contexts
 
         public ConnectionFactory(IConfiguration config) => _config = config;
 
-        public IDbConnection CreateConnection(DatabaseKey key)
+        public IDbConnection GetConnection()
         {
-            return key switch
-            {
-                DatabaseKey.Default => new SqlConnection(
-                    _config.GetConnectionString("DefaultConnection")),
-                DatabaseKey.Test => new SqlConnection(
-                    _config.GetConnectionString("TestConnection")),
-                //DatabaseType.MySql => new MySqlConnection(
-                //    _config.GetConnectionString("MySqlConnection")),
-                _ => throw new ArgumentOutOfRangeException($"Connection string '{nameof(key)}' not found.")
-            };
+            var conn = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            return conn;
+        }
+
+        public IDbConnection GetConnection_Test()
+        {
+            var conn = new SqlConnection(_config.GetConnectionString("Test"));
+            return conn;
         }
     }
 }

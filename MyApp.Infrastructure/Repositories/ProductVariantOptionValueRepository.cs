@@ -11,14 +11,20 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class ProductVariantOptionValueRepository: BaseRepository, IProductVariantOptionValueRepository
+    public class ProductVariantOptionValueRepository : IProductVariantOptionValueRepository
     {
-        public ProductVariantOptionValueRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public ProductVariantOptionValueRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<ProductVariantOptionValue>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<ProductVariantOptionValue>(" SELECT * FROM ProductVariantOptionValues "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<ProductVariantOptionValue>(" SELECT * FROM ProductVariantOptionValues ");
         }
     }
 }

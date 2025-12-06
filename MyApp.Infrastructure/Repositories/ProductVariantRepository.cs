@@ -12,20 +12,27 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class ProductVariantRepository : BaseRepository, IProductVariantRepository
+    public class ProductVariantRepository : IProductVariantRepository
     {
-        public ProductVariantRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public ProductVariantRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<ProductVariant>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<ProductVariant>(" SELECT * FROM ProductVariants "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<ProductVariant>(" SELECT * FROM ProductVariants ");
         }
 
         public async Task<IEnumerable<ProductVariant>> GetByProductId(long productId)
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<ProductVariant>(" SELECT * FROM ProductVariants WHERE productId"));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<ProductVariant>(" SELECT * FROM ProductVariants WHERE productId");
         }
     }
 }

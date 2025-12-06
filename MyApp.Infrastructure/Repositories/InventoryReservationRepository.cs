@@ -11,14 +11,20 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class InventoryReservationRepository : BaseRepository, IInventoryReservationRepository
+    public class InventoryReservationRepository : IInventoryReservationRepository
     {
-        public InventoryReservationRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public InventoryReservationRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<InventoryReservation>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<InventoryReservation>(" SELECT * FROM InventoryReservations "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<InventoryReservation>(" SELECT * FROM InventoryReservations ");
         }
     }
 }

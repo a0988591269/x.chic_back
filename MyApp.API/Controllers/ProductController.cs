@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyApp.API.Models;
 using MyApp.Application.DTOs;
 using MyApp.Application.Interfaces;
 using MyApp.Application.Services;

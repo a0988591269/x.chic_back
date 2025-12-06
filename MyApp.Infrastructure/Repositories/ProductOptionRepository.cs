@@ -6,14 +6,19 @@ using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class ProductOptionRepository : BaseRepository, IProductOptionRepository
+    public class ProductOptionRepository : IProductOptionRepository
     {
-        public ProductOptionRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public ProductOptionRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<ProductOption>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<ProductOption>(" SELECT * FROM ProductOptions "));
+            using var conn = _factory.GetConnection();
+            return await conn.QueryAsync<ProductOption>(" SELECT * FROM ProductOptions ");
         }
     }
 }

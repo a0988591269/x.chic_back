@@ -11,13 +11,20 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class ShipmentRepository : BaseRepository, IShipmentRepository
+    public class ShipmentRepository : IShipmentRepository
     {
-        public ShipmentRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public ShipmentRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
+
         public async Task<IEnumerable<Shipment>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Shipment>(" SELECT * FROM Shipments "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<Shipment>(" SELECT * FROM Shipments ");
         }
     }
 }

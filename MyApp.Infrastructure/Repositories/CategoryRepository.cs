@@ -6,24 +6,27 @@ using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class CategoryRepository : BaseRepository, ICategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
-        /// <summary>
-        /// base 傳入兩個參數
-        /// </summary>
-        /// <param name="factory"></param>
-        public CategoryRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
 
-        public async Task<Category> GetCategoryBySlug(string Slug)
+        public CategoryRepository(IConnectionFactory factory) {
+            _factory = factory;
+        }
+
+        public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryFirstAsync<Category>(" SELECT * FROM Categories WHERE Slug = @Slug ", new {Slug}));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<Category>(" SELECT * FROM Categories ");
         }
 
         public async Task<Category?> GetBySlug(string slug)
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryFirstOrDefaultAsync<Category>(" SELECT * FROM Categories WHERE Slug = @Slug ", new { Slug = slug }));
+            using var conn = _factory.GetConnection();
+
+            var sql = @" SELECT * FROM Categories WHERE Slug = @Slug ";
+            return await conn.QueryFirstOrDefaultAsync<Category>(sql, new { Slug = slug });
         }
     }
 }

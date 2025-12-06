@@ -12,21 +12,28 @@ using MyApp.Domain.Interfaces;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class ProductRepository : BaseRepository, IProductRepository
+    public class ProductRepository : IProductRepository
     {
-        public ProductRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public ProductRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Product>(" SELECT * FROM Products; "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<Product>(" SELECT * FROM Products; ");
         }
 
         public async Task<Product?> GetByProductId(long productId)
         {
+            using var conn = _factory.GetConnection();
+
             var sql = @" SELECT * FROM Products WHERE ProductId = @ProductId; ";
-            return await WithConnectionAsync(conn =>
-                conn.QueryFirstOrDefaultAsync<Product>(sql, new { ProductId = productId }));
+            return await conn.QueryFirstOrDefaultAsync<Product>(sql, new { ProductId = productId });
         }
     }
 }

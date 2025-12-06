@@ -11,14 +11,19 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class AuditLogRepository : BaseRepository, IAuditLogRepository
+    public class AuditLogRepository : IAuditLogRepository
     {
-        public AuditLogRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public AuditLogRepository(IConnectionFactory factory) {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<AuditLog>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<AuditLog>(" SELECT * FROM AuditLogs "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<AuditLog>(" SELECT * FROM AuditLogs ");
         }
     }
 }

@@ -11,13 +11,20 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class UserRoleRepository : BaseRepository, IUserRoleRepository
+    public class UserRoleRepository : IUserRoleRepository
     {
-        public UserRoleRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public UserRoleRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
+
         public async Task<IEnumerable<UserRole>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<UserRole>(" SELECT * FROM UserRoles "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<UserRole>(" SELECT * FROM UserRoles ");
         }
     }
 }

@@ -11,14 +11,20 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class PaymentRepository : BaseRepository, IPaymentRepository
+    public class PaymentRepository : IPaymentRepository
     {
-        public PaymentRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public PaymentRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<Payment>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Payment>(" SELECT * FROM Payments "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<Payment>(" SELECT * FROM Payments ");
         }
     }
 }

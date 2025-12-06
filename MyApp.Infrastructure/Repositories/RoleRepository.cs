@@ -6,14 +6,20 @@ using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Repositories
 {
-    public class RoleRepository:BaseRepository, IRoleRepository
+    public class RoleRepository : IRoleRepository
     {
-        public RoleRepository(IConnectionFactory factory) : base(factory, DatabaseKey.Default) { }
+        private readonly IConnectionFactory _factory;
+
+        public RoleRepository(IConnectionFactory factory)
+        {
+            _factory = factory;
+        }
 
         public async Task<IEnumerable<Role>> GetAllAsync()
         {
-            return await WithConnectionAsync(conn =>
-                conn.QueryAsync<Role>(" SELECT * FROM Roles "));
+            using var conn = _factory.GetConnection();
+
+            return await conn.QueryAsync<Role>(" SELECT * FROM Roles ");
         }
     }
 }
