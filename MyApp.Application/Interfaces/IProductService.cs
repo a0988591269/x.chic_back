@@ -1,13 +1,9 @@
-﻿using MyApp.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyApp.Application.Services.Products.DTOs;
 
 namespace MyApp.Application.Interfaces
 {
     public interface IProductService
     {
+        Task<IEnumerable<ProductDto>> GetBySlug(string slug);
     }
 }

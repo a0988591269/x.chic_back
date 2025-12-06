@@ -10,4 +10,9 @@
     <ProjectReference Include="..\MyApp.Infrastructure\MyApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Categories\Commands\" />
+    <Folder Include="Services\Products\Commands\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using MyApp.Domain.Enums;
 using System.Data;
 
 namespace MyApp.Infrastructure.Persistence.Contexts

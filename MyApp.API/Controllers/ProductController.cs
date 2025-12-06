@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyApp.Application.DTOs;
 using MyApp.Application.Interfaces;
-using MyApp.Application.Services;
+using MyApp.Application.Services.Products.DTOs;
 
 namespace MyApp.API.Controllers
 {
@@ -15,6 +14,14 @@ namespace MyApp.API.Controllers
         public ProductController(IProductService productService)
         {
             _productService = productService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetBySlug(string Slug)
+        {
+            var product = await _productService.GetBySlug(Slug);
+
+            return Ok(product);
         }
     }
 }
