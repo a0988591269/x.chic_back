@@ -16,12 +16,12 @@ namespace MyApp.API.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetBySlug(string Slug)
+        [HttpGet("GetBySlug")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetBySlug(string slug)
         {
-            var product = await _productService.GetBySlug(Slug);
+            var products = await _productService.GetBySlug(slug);
 
-            return Ok(product);
+            return Ok(products);
         }
     }
 }

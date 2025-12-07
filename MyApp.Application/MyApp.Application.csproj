@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="Services\Categories\Commands\" />
     <Folder Include="Services\Products\Commands\" />
+    <Folder Include="Services\ProductVariants\Commands\" />
   </ItemGroup>
 
 </Project>

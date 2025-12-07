@@ -20,10 +20,22 @@ namespace MyApp.Application.Services.Categories.Queries
         {
             using var conn = _factory.GetConnection();
 
-            var sql = @" SELECT p.* FROM Categories c
+            var sql = @" SELECT p.*, pv.*, pvi.* FROM Categories c
                          LEFT JOIN Products p
                          ON c.CategoryId = p.CategoryId
-                         WHERE c.Slug = @Slug ";
+                         CROSS APPLY (
+                             SELECT TOP 1 ProductVariantId, Sku, Price, DiscountPrice, StockQty
+                             FROM ProductVariants pv
+                             WHERE pv.ProductId = p.ProductId AND IsActive = 1
+                             ORDER BY pv.Price ASC
+                         ) pv
+                         CROSS APPLY (
+                             SELECT TOP 1 ImageUrl
+                             FROM ProductVariantImages pvi
+	                         WHERE pv.ProductVariantId = pvi.ProductVariantId
+                             ORDER BY pvi.SortOrder ASC
+                         ) pvi
+                         WHERE c.Slug = @Slug AND p.IsActive = 1 ";
             return await conn.QueryAsync<ProductDto>(sql, new { Slug = slug });
         }
     }
