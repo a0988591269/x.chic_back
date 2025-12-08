@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using MyApp.Infrastructure.Persistence.Contexts;
 
-namespace MyApp.Application.Services.ProductVariants.Queries
+namespace MyApp.Application.Features.ProductVariants.Queries.GetProductVariant
 {
     public class GetProductVariantQuery
     {

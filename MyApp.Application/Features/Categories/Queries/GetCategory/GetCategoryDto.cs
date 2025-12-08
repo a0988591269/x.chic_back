@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MyApp.Application.Commons.Results;
 
-namespace MyApp.Application.Features.Categories.Queries
+namespace MyApp.Application.Features.Categories.Queries.GetCategory
 {
     public class GetCategoryDto
     {

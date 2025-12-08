@@ -3,7 +3,6 @@ using Dapper;
 using MediatR;
 using MyApp.Application.Commons.Results;
 using MyApp.Application.Features.Products.Queries.GetProductBySlug;
-using MyApp.Application.Services.Categories.Queries;
 using MyApp.Infrastructure.Persistence.Contexts;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Features.Categories.Queries
+namespace MyApp.Application.Features.Categories.Queries.GetCategory
 {
     public class GetCategoryHandler : IRequestHandler<GetCategoryQuery, Result<IEnumerable<GetCategoryDto>>>
     {
