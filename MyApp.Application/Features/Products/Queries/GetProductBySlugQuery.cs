@@ -1,22 +1,23 @@
 ﻿using Dapper;
-using MyApp.Application.Interfaces;
-using MyApp.Application.Services.Products.DTOs;
+using MediatR;
+using MyApp.Application.Commons.Results;
+using MyApp.Application.Features.Products.Queries;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces;
 using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Application.Services.Categories.Queries
 {
-    public class ProductQueryService : IProductService
+    public class GetProductBySlugQuery : IRequest<Result<GetProductBySlugDto>>
     {
         private readonly IConnectionFactory _factory;
 
-        public ProductQueryService(IConnectionFactory factory)
+        public GetProductBySlugQuery(IConnectionFactory factory)
         {
             _factory = factory;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetBySlug(string slug)
+        public async Task<IEnumerable<GetProductBySlugDto>> GetBySlug(string slug)
         {
             using var conn = _factory.GetConnection();
 
@@ -36,7 +37,7 @@ namespace MyApp.Application.Services.Categories.Queries
                              ORDER BY pvi.SortOrder ASC
                          ) pvi
                          WHERE c.Slug = @Slug AND p.IsActive = 1 ";
-            return await conn.QueryAsync<ProductDto>(sql, new { Slug = slug });
+            return await conn.QueryAsync<GetProductBySlugDto>(sql, new { Slug = slug });
         }
     }
 }

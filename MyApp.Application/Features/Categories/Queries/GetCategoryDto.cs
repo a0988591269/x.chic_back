@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyApp.Application.Services.Categories.DTOs
+namespace MyApp.Application.Features.Categories.Queries
 {
-    public class CategoryDto
+    public class GetCategoryDto
     {
         /// <summary>
         /// 分類主鍵

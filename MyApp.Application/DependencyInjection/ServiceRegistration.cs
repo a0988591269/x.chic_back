@@ -9,8 +9,8 @@ namespace MyApp.Application.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
-            services.AddScoped<ICategoryService, CategoryQueryService>();
-            services.AddScoped<IProductService, ProductQueryService>();
+            services.AddScoped<ICategoryRepository, GetCategoryQuery>();
+            services.AddScoped<IProductRepository, GetProductBySlugQuery>();
             return services;
         }
     }

@@ -11,9 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Categories\Commands\" />
-    <Folder Include="Services\Products\Commands\" />
-    <Folder Include="Services\ProductVariants\Commands\" />
+    <Folder Include="Features\Categories\Commands\" />
+    <Folder Include="Features\Products\Commands\" />
+    <Folder Include="Features\ProductVariants\Commands\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="14.0.0" />
   </ItemGroup>
 
 </Project>

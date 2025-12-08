@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyApp.Application.Features.Categories.Queries;
 using MyApp.Application.Interfaces;
-using MyApp.Application.Services.Categories.DTOs;
 
 namespace MyApp.API.Controllers
 {
@@ -9,15 +9,15 @@ namespace MyApp.API.Controllers
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly ICategoryRepository _categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryRepository categoryService)
         {
             _categoryService = categoryService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> Get()
+        public async Task<ActionResult<IEnumerable<GetCategoryDto>>> Get()
         {
             var category = await _categoryService.GetAllAsync();
 

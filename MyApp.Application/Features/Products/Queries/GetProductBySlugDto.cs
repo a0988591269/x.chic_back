@@ -1,12 +1,10 @@
-﻿using MyApp.Application.Services.Categories.DTOs;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using MyApp.Domain.Entities;
-using MyApp.Application.Services.ProductVariants.DTOs;
 
-namespace MyApp.Application.Services.Products.DTOs
+namespace MyApp.Application.Features.Products.Queries
 {
-    public class ProductDto
+    public class GetProductBySlugDto
     {
         /// <summary>
         /// 商品主鍵

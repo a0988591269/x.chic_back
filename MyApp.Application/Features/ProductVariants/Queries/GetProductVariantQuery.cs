@@ -5,11 +5,11 @@ using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Application.Services.ProductVariants.Queries
 {
-    public class ProductVariantQueryService : IProductVariantsService
+    public class GetProductVariantQuery : IProductVariantRepository
     {
         private readonly IConnectionFactory _factory;
 
-        public ProductVariantQueryService(IConnectionFactory factory)
+        public GetProductVariantQuery(IConnectionFactory factory)
         {
             _factory = factory;
         }

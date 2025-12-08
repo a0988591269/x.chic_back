@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyApp.Application.Features.Products.Queries;
 using MyApp.Application.Interfaces;
-using MyApp.Application.Services.Products.DTOs;
 
 namespace MyApp.API.Controllers
 {
@@ -9,18 +9,22 @@ namespace MyApp.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IProductRepository _productService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductRepository productService)
         {
             _productService = productService;
         }
 
         [HttpGet("GetBySlug")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetBySlug(string slug)
+        public async Task<ActionResult<IEnumerable<GetProductBySlugDto>>> GetBySlug(string slug)
         {
             var products = await _productService.GetBySlug(slug);
 
+            if (products == null)
+            {
+                return NotFound();
+            }
             return Ok(products);
         }
     }
