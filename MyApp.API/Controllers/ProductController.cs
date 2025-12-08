@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyApp.Application.Features.Products.Queries;
-using MyApp.Application.Interfaces;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using MyApp.Application.Features.Products.Queries.GetProductBySlug;
 
 namespace MyApp.API.Controllers
 {
@@ -9,23 +9,28 @@ namespace MyApp.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductRepository _productService;
+        private readonly IMediator _mediator;
 
-        public ProductController(IProductRepository productService)
+        public ProductController(IMediator mediator)
         {
-            _productService = productService;
+            _mediator = mediator;
         }
 
         [HttpGet("GetBySlug")]
         public async Task<ActionResult<IEnumerable<GetProductBySlugDto>>> GetBySlug(string slug)
         {
-            var products = await _productService.GetBySlug(slug);
-
-            if (products == null)
+            var query = new GetProductBySlugQuery
             {
-                return NotFound();
+                Slug = slug
+            };
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Error);
             }
-            return Ok(products);
+
+            return Ok(result.Data);
         }
     }
 }

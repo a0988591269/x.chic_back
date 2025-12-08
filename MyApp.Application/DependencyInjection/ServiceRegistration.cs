@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyApp.Application.Interfaces;
-using MyApp.Application.Services.Categories.Queries;
+using System.Reflection;
 
 namespace MyApp.Application.DependencyInjection
 {
@@ -9,8 +8,13 @@ namespace MyApp.Application.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
-            services.AddScoped<ICategoryRepository, GetCategoryQuery>();
-            services.AddScoped<IProductRepository, GetProductBySlugQuery>();
+            // 注入 Repository
+            //services.AddScoped<ICategoryRepository, CategoryRepository>();
+            //services.AddScoped<IProductRepository, ProductRepository>();
+
+            // 注入 MediatR
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
             return services;
         }
     }

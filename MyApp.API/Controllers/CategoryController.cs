@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using MyApp.Application.Features.Categories.Queries;
-using MyApp.Application.Interfaces;
+using MyApp.Application.Services.Categories.Queries;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MyApp.API.Controllers
 {
@@ -9,19 +11,25 @@ namespace MyApp.API.Controllers
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryRepository _categoryService;
+        private readonly IMediator _mediator;
 
-        public CategoryController(ICategoryRepository categoryService)
+        public CategoryController(IMediator mediator)
         {
-            _categoryService = categoryService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetCategoryDto>>> Get()
         {
-            var category = await _categoryService.GetAllAsync();
+            var query = new GetCategoryQuery();
+            var result = await _mediator.Send(query);
 
-            return Ok(category);
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Data);
         }
     }
 }

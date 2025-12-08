@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MyApp.Domain.Entities;
 
-namespace MyApp.Application.Features.Products.Queries
+namespace MyApp.Application.Features.Products.Queries.GetProductBySlug
 {
     public class GetProductBySlugDto
     {

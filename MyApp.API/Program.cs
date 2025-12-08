@@ -3,6 +3,7 @@ using MyApp.API.Extensions;
 using MyApp.Application.DependencyInjection;
 using MyApp.Infrastructure.DependencyInjection;
 using MyApp.Infrastructure.Persistence.Seed.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 

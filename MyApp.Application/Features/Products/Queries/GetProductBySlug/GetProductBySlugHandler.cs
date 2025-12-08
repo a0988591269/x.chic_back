@@ -1,26 +1,22 @@
 ﻿using Dapper;
 using MediatR;
 using MyApp.Application.Commons.Results;
-using MyApp.Application.Features.Products.Queries;
-using MyApp.Domain.Entities;
-using MyApp.Domain.Interfaces;
 using MyApp.Infrastructure.Persistence.Contexts;
 
-namespace MyApp.Application.Services.Categories.Queries
+namespace MyApp.Application.Features.Products.Queries.GetProductBySlug
 {
-    public class GetProductBySlugQuery : IRequest<Result<GetProductBySlugDto>>
+    public class GetProductBySlugHandler : IRequestHandler<GetProductBySlugQuery, Result<IEnumerable<GetProductBySlugDto>>>
     {
         private readonly IConnectionFactory _factory;
 
-        public GetProductBySlugQuery(IConnectionFactory factory)
+        public GetProductBySlugHandler(IConnectionFactory factory)
         {
             _factory = factory;
         }
 
-        public async Task<IEnumerable<GetProductBySlugDto>> GetBySlug(string slug)
+        public async Task<Result<IEnumerable<GetProductBySlugDto>>> Handle(GetProductBySlugQuery request, CancellationToken cancellationToken)
         {
             using var conn = _factory.GetConnection();
-
             var sql = @" SELECT p.*, pv.*, pvi.* FROM Categories c
                          LEFT JOIN Products p
                          ON c.CategoryId = p.CategoryId
@@ -37,7 +33,14 @@ namespace MyApp.Application.Services.Categories.Queries
                              ORDER BY pvi.SortOrder ASC
                          ) pvi
                          WHERE c.Slug = @Slug AND p.IsActive = 1 ";
-            return await conn.QueryAsync<GetProductBySlugDto>(sql, new { Slug = slug });
+            var product = await conn.QueryAsync<GetProductBySlugDto>(sql, new { request.Slug });
+
+            if (product == null)
+            {
+                return Result<IEnumerable<GetProductBySlugDto>>.NotFound();
+            }
+
+            return Result<IEnumerable<GetProductBySlugDto>>.Success(product);
         }
     }
 }
