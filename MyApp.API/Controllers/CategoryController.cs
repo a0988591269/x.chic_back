@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Application.Features.Categories.Queries.GetCategory;
-using MyApp.Application.Services.Categories.Queries;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MyApp.API.Controllers
 {
