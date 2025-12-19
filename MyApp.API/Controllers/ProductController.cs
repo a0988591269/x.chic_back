@@ -17,10 +17,10 @@ namespace MyApp.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{productId}")]
-        public async Task<ActionResult<IEnumerable<GetProductByIdDto>>> GetById([FromRoute]long productId)
+        [HttpGet("GetProductDetail/{productId}")]
+        public async Task<ActionResult<IEnumerable<GetProductDetailDto>>> GetProductDetail([FromRoute]long productId)
         {
-            var query = new GetProductByIdQuery
+            var query = new GetProductDetailQuery
             {
                 Id = productId
             };
