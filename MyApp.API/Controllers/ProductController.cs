@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Application.Features.Products.Queries.GetProductById;
 using MyApp.Application.Features.Products.Queries.GetProductBySlug;
@@ -50,5 +51,11 @@ namespace MyApp.API.Controllers
 
             return Ok(result.Data);
         }
+
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult CreateProduct()
+        //{
+        //    return Ok("");
+        //}
     }
 }

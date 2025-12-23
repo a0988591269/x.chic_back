@@ -35,7 +35,8 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
                 "Product.Update",
                 "Product.Delete",
                 "Order.Read",
-                "Order.Manage"
+                "Order.Manage",
+                "Admin.Access"
             };
 
             var adminPermissions = permissions.Select(p => new RolePermission
