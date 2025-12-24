@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+// using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyApp.Domain.Interfaces;
+using MyApp.Infrastructure.JWT;
 using MyApp.Infrastructure.Persistence;
 using MyApp.Infrastructure.Persistence.Contexts;
 using MyApp.Infrastructure.Repositories;
@@ -33,6 +35,9 @@ namespace MyApp.Infrastructure.DependencyInjection
             // Repository 注入
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.Configure<JwtOptions>(config.GetSection("Jwt"));
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
             return services;
         }

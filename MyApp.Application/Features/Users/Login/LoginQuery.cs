@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MyApp.Application.Commons.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace MyApp.Application.Features.Users.Login
 {
-    public record LoginQuery(string Email, string Password) : IRequest<LoginDto> { };
+    public record LoginQuery(string Email, string Password) : IRequest<Result<LoginDto>> { };
 }

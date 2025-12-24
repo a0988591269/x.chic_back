@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using MediatR;
+using MyApp.Application.Commons.Results;
+using MyApp.Application.Features.Categories.Queries.GetCategory;
 using MyApp.Domain.Entities;
 using MyApp.Infrastructure.JWT;
 using MyApp.Infrastructure.Persistence.Contexts;
@@ -8,7 +10,7 @@ using System.Security.Claims;
 
 namespace MyApp.Application.Features.Users.Login
 {
-    public class LoginHandler : IRequestHandler<LoginQuery, LoginDto>
+    public class LoginHandler : IRequestHandler<LoginQuery, Result<LoginDto>>
     {
         private readonly IConnectionFactory _factory;
         private readonly IJwtTokenGenerator _jwt;
@@ -21,7 +23,7 @@ namespace MyApp.Application.Features.Users.Login
             _jwt = jwt;
         }
 
-        public async Task<LoginDto> Handle(LoginQuery request, CancellationToken cancellationToken)
+        public async Task<Result<LoginDto>> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
             using var conn = _factory.GetConnection();
 
@@ -35,7 +37,7 @@ namespace MyApp.Application.Features.Users.Login
                 new { request.Email });
 
             if (user == null || !PasswordHasher.Verify(request.Password, user.HashedPassword))
-                throw new UnauthorizedAccessException("帳號或密碼錯誤");
+                return Result<LoginDto>.NotFound("帳號或密碼錯誤");
 
             // 撈 Roles
             var roles = await conn.QueryAsync<string>(
@@ -63,10 +65,7 @@ namespace MyApp.Application.Features.Users.Login
             // 發 JWT
             var token = _jwt.Generate(claims);
 
-            return new LoginDto(
-                token,
-                DateTime.UtcNow.AddHours(2)
-            );
+            return Result<LoginDto>.Success(new LoginDto(token, DateTime.UtcNow.AddHours(2)));
         }
 
         private static List<Claim> BuildClaims(User user, IEnumerable<string> roles, IEnumerable<string> permissions)
@@ -75,6 +74,7 @@ namespace MyApp.Application.Features.Users.Login
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim("user_uuid", user.UserUuid.ToString()),
+                new Claim(ClaimTypes.Name, user.Name ?? ""),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("tier", user.Tier.ToString())
             };

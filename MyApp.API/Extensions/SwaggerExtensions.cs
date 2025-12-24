@@ -18,6 +18,7 @@ namespace MyApp.API.Extensions
                 c.ConfigObject.TryItOutEnabled = true;
                 c.ConfigObject.DisplayRequestDuration = true;
                 c.RoutePrefix = "swagger";
+                c.SwaggerEndpoint("/swagger/Auth/swagger.json", "Auth API");
                 c.SwaggerEndpoint("/swagger/Category/swagger.json", "Category API");
                 c.SwaggerEndpoint("/swagger/Product/swagger.json", "Product API");
             });
