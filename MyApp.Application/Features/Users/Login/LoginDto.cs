@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace MyApp.Application.Features.Users.Login
 {
-    public record LoginDto(string AccessToken, DateTime ExpiresAt);
+    public record LoginDto(string AccessToken);
 }

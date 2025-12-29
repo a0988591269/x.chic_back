@@ -63,9 +63,9 @@ namespace MyApp.Application.Features.Users.Login
             var claims = BuildClaims(user, roles, permissions);
 
             // 發 JWT
-            var token = _jwt.Generate(claims);
+            var token = _jwt.GenerateToken(claims);
 
-            return Result<LoginDto>.Success(new LoginDto(token, DateTime.UtcNow.AddHours(2)));
+            return Result<LoginDto>.Success(new LoginDto(token));
         }
 
         private static List<Claim> BuildClaims(User user, IEnumerable<string> roles, IEnumerable<string> permissions)
@@ -79,6 +79,7 @@ namespace MyApp.Application.Features.Users.Login
                 new Claim("tier", user.Tier.ToString())
             };
 
+            // 多角色
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));

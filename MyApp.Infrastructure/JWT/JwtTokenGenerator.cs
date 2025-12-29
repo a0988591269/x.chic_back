@@ -15,7 +15,7 @@ namespace MyApp.Infrastructure.JWT
             _options = options.Value;
         }
 
-        public string Generate(IEnumerable<Claim> claims)
+        public string GenerateToken(IEnumerable<Claim> claims)
         {
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_options.Secret));
