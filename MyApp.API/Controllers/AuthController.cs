@@ -24,7 +24,7 @@ namespace MyApp.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] LoginQuery query)
+        public async Task<ActionResult> Login([FromForm] LoginQuery query)
         {
             var result = await _mediator.Send(query);
 
