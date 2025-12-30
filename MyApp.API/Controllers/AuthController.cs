@@ -16,15 +16,17 @@ namespace MyApp.API.Controllers
     {
         private readonly ILogger<AuthController> _logger;
         private readonly IMediator _mediator;
+        private readonly IWebHostEnvironment _env; // 注入環境設定
 
-        public AuthController(ILogger<AuthController> logger, IMediator mediator)
+        public AuthController(ILogger<AuthController> logger, IMediator mediator, IWebHostEnvironment env)
         {
             _logger = logger;
             _mediator = mediator;
+            _env = env;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromForm] LoginQuery query)
+        public async Task<ActionResult> Login([FromBody] LoginQuery query)
         {
             var result = await _mediator.Send(query);
 
@@ -34,24 +36,32 @@ namespace MyApp.API.Controllers
             }
 
             // 寫入 HttpOnly Cookie
-            Response.Cookies.Append("access_token", result.Data.AccessToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,          // https 才傳
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddHours(2)
-            });
+            SetTokenCookie(result.Data.AccessToken);
 
             return Ok();
         }
 
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            // 優化 4: 清除 Cookie (將過期時間設為過去)
+            Response.Cookies.Delete("access_token", new CookieOptions
+            {
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+
+            return Ok(new { message = "已登出" });
+        }
+
         [Authorize]
         [HttpGet("userInfo")]
-        public async Task<ActionResult> UserInfo()
+        public IActionResult UserInfo()
         {
             var user = new
             {
                 UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                // 加上 ?. 以防 claim 不存在時報錯
                 UserUuid = User.FindFirstValue("user_uuid"),
                 UserName = User.FindFirstValue(ClaimTypes.Name),
                 Email = User.FindFirstValue(ClaimTypes.Email),
@@ -61,6 +71,23 @@ namespace MyApp.API.Controllers
             };
 
             return Ok(user);
+        }
+
+        // 私有方法：統一管理 Cookie 設定
+        private void SetTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                // 優化 5: Lax 模式對 UX 比較友善
+                SameSite = SameSiteMode.None,
+                // 優化 6: 如果是開發環境且沒跑 HTTPS，可以考慮放寬 (但在 .NET 8 預設都有 HTTPS)
+                Secure = _env.IsDevelopment() ? true : true,
+                // 設定過期時間 (建議與 JWT exp 一致)
+                Expires = DateTime.UtcNow.AddHours(2)
+            };
+
+            Response.Cookies.Append("access_token", token, cookieOptions);
         }
     }
 }

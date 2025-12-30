@@ -15,16 +15,33 @@ namespace MyApp.API.Extensions
         /// <summary>
         /// Enable CORS，阻止來自不同網域的請求，Configure需加入
         /// </summary>
-        /// <param name="services"></param>
         public static void ConfigureCors(this IServiceCollection services)
         {
-            services.AddCors(builder =>
-                builder.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader())
-            );
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowOrigin", policy =>
+            //    {
+            //        policy.AllowAnyOrigin()
+            //            .AllowAnyHeader()
+            //            .AllowAnyMethod();
+            //    });
+            //});
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("NuxtApp", policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000") // ❌ 絕對不能寫 "*"
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();                  // 🔥 關鍵：允許帶 Cookie
+                });
+            });
         }
 
+        /// <summary>
+        /// 設定 JWT 認證服務
+        /// </summary>
         public static void AddAuthentication(this IServiceCollection services, IConfiguration config)
         {
             var jwtSection = config.GetSection("Jwt");

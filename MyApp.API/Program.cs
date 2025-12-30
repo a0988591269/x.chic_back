@@ -31,7 +31,8 @@ builder.Services.AddAuthentication(builder.Configuration);
 var app = builder.Build();
 
 #region 自定義運行
-app.UseCors("AllowOrigin");
+//app.UseCors("AllowOrigin");
+app.UseCors("NuxtApp");
 await app.SeedDataAsync();
 app.UseSwaggerUIExtensions();
 #endregion

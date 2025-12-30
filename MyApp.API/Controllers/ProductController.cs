@@ -35,8 +35,8 @@ namespace MyApp.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpGet("GetBySlug")]
-        public async Task<ActionResult<IEnumerable<GetProductBySlugDto>>> GetBySlug(string slug)
+        [HttpGet("GetBySlug/{slug}")]
+        public async Task<ActionResult<IEnumerable<GetProductBySlugDto>>> GetBySlug([FromRoute] string slug)
         {
             var query = new GetProductBySlugQuery
             {
