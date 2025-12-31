@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MyApp.Application.Commons.Results;
 using MyApp.Application.Features.Users.Login;
 using System.Security.Claims;
@@ -80,9 +81,9 @@ namespace MyApp.API.Controllers
             {
                 HttpOnly = true,
                 // 優化 5: Lax 模式對 UX 比較友善
-                SameSite = SameSiteMode.None,
+                SameSite = SameSiteMode.Lax,  // 不要用 Strict
                 // 優化 6: 如果是開發環境且沒跑 HTTPS，可以考慮放寬 (但在 .NET 8 預設都有 HTTPS)
-                Secure = _env.IsDevelopment() ? true : true,
+                Secure = _env.IsDevelopment() ? false : true,
                 // 設定過期時間 (建議與 JWT exp 一致)
                 Expires = DateTime.UtcNow.AddHours(2)
             };
