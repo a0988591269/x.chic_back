@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MyApp.Infrastructure.Persistence.Contexts;
 using MyApp.Domain.Entities;
+using MyApp.Shared.Helpers;
 
 namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 {
@@ -27,8 +28,8 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             context.Roles.AddRange(adminRole, customerRole);
             await context.SaveChangesAsync();
 
-            // 建立權限（對應 RolePermission）
-            var permissions = new[]
+            // 建立管理者權限（對應 RolePermission）
+            var adminPermissions = new[]
             {
                 "Product.Read",
                 "Product.Create",
@@ -39,13 +40,30 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
                 "Admin.Access"
             };
 
-            var adminPermissions = permissions.Select(p => new RolePermission
+            var adminRolePermissions = adminPermissions.Select(p => new RolePermission
             {
                 RoleId = adminRole.RoleId,
                 Permission = p
             }).ToList();
 
-            context.RolePermissions.AddRange(adminPermissions);
+            // 建立客戶權限（對應 RolePermission）
+            var cusPermissions = new[]
+            {
+                "Product.Read",
+                "Order.Read"
+            };
+
+            var cusRolePermissions = cusPermissions.Select(p => new RolePermission
+            {
+                RoleId = adminRole.RoleId,
+                Permission = p
+            }).ToList();
+
+            var mixPermissions = new List<RolePermission>();
+            mixPermissions.AddRange(adminRolePermissions);
+            mixPermissions.AddRange(cusRolePermissions);
+
+            context.RolePermissions.AddRange(mixPermissions);
             await context.SaveChangesAsync();
 
             // 建立管理員
@@ -53,7 +71,15 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             {
                 Email = "admin@myapp.com",
                 Name = "Super Admin",
-                HashedPassword = "admin123" // 🚨 DEMO only, 請改成 hash
+                HashedPassword = PasswordHasher.Hash("12345678") // 🚨 DEMO only, 請改成 hash
+            };
+
+            // 建立會員
+            var customer = new User
+            {
+                Email = "customer@myapp.com",
+                Name = "Customer",
+                HashedPassword = PasswordHasher.Hash("12345678") // 🚨 DEMO only, 請改成 hash
             };
 
             context.Users.Add(admin);
@@ -64,6 +90,12 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             {
                 UserId = admin.UserId,
                 RoleId = adminRole.RoleId
+            });
+
+            context.UserRoles.Add(new UserRole
+            {
+                UserId = customer.UserId,
+                RoleId = customerRole.RoleId
             });
 
             await context.SaveChangesAsync();

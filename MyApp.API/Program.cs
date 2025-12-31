@@ -35,16 +35,7 @@ var app = builder.Build();
 app.UseCors("NuxtApp");
 await app.SeedDataAsync();
 app.UseSwaggerUIExtensions();
-#endregion
-
-#region 自定義中介軟體
-// 配置靜態文件中介軟體以提供圖片
-var imageRoot = @"C:\Temp"; // ← 這是你的圖片存放路徑
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(imageRoot),
-    RequestPath = "/images"
-});
+app.UseStaticFilesExtensions();
 #endregion
 
 // Configure the HTTP request pipeline.

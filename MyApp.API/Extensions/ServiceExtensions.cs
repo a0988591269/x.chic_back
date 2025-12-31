@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Connections;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using MyApp.Infrastructure.Persistence;
 using System.Data;
@@ -73,6 +74,23 @@ namespace MyApp.API.Extensions
                         return Task.CompletedTask;
                     }
                 };
+            });
+        }
+
+        /// <summary>
+        /// 配置靜態文件中介軟體以提供圖片
+        /// </summary>
+        public static void UseStaticFilesExtensions(this IApplicationBuilder builder)
+        {
+            var imageRoot = @"C:\Temp"; // ← 這是你的圖片存放路徑
+            if (!Directory.Exists(imageRoot))
+            {
+                Directory.CreateDirectory(imageRoot);
+            }
+            builder.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(imageRoot),
+                RequestPath = "/images"
             });
         }
     }
