@@ -55,7 +55,7 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 
             var cusRolePermissions = cusPermissions.Select(p => new RolePermission
             {
-                RoleId = adminRole.RoleId,
+                RoleId = customerRole.RoleId,
                 Permission = p
             }).ToList();
 
@@ -71,7 +71,7 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             {
                 Email = "admin@myapp.com",
                 Name = "Super Admin",
-                HashedPassword = PasswordHasher.Hash("12345678") // 🚨 DEMO only, 請改成 hash
+                HashedPassword = PasswordHasher.Hash("12345678")
             };
 
             // 建立會員
@@ -79,28 +79,29 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             {
                 Email = "customer@myapp.com",
                 Name = "Customer",
-                HashedPassword = PasswordHasher.Hash("12345678") // 🚨 DEMO only, 請改成 hash
+                HashedPassword = PasswordHasher.Hash("12345678")
             };
 
-            context.Users.Add(admin);
+            context.Users.AddRange(admin, customer);
             await context.SaveChangesAsync();
 
             // 建立關聯
-            context.UserRoles.Add(new UserRole
+            var adminUserRole = new UserRole
             {
                 UserId = admin.UserId,
                 RoleId = adminRole.RoleId
-            });
+            };
 
-            context.UserRoles.Add(new UserRole
+            var customerUserRole = new UserRole
             {
                 UserId = customer.UserId,
                 RoleId = customerRole.RoleId
-            });
+            };
 
+            context.UserRoles.AddRange(adminUserRole, customerUserRole);
             await context.SaveChangesAsync();
 
-            logger.LogInformation("👑 Seeded Roles + Permissions + Admin User");
+            logger.LogInformation("👑 Seeded Roles + Permissions + User");
         }
     }
 }
