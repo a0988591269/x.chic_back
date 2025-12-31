@@ -12,8 +12,8 @@ using MyApp.Infrastructure.Persistence.Contexts;
 namespace MyApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251223080138_addRolePermission")]
-    partial class addRolePermission
+    [Migration("20251231022237_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
