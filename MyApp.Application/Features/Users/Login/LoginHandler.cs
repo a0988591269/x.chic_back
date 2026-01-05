@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using MediatR;
+using MyApp.Application.Commons.Interfaces.JWT;
 using MyApp.Application.Commons.Results;
 using MyApp.Domain.Authentication;
 using MyApp.Domain.Contexts;
 using MyApp.Domain.Entities;
-using MyApp.Domain.JWT;
 using System.Security.Claims;
 
 namespace MyApp.Application.Features.Users.Login

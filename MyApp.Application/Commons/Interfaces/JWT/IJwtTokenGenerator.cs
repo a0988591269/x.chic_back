@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApp.Domain.JWT
+namespace MyApp.Application.Commons.Interfaces.JWT
 {
     public interface IJwtTokenGenerator
     {

@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using MyApp.Application.Commons.Results;
 using MyApp.Application.Features.Users.Login;
 using MyApp.Application.Features.Users.Signup;
 using System.Security.Claims;
