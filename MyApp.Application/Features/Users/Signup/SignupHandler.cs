@@ -1,9 +1,6 @@
-﻿using Dapper;
-using MediatR;
-using MyApp.Application.Abstractions.Authentication;
+﻿using MediatR;
 using MyApp.Application.Commons.Results;
 using MyApp.Domain.Entities;
-using MyApp.Infrastructure.Persistence.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

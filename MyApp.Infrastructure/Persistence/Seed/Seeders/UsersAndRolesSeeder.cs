@@ -6,9 +6,9 @@ using MyApp.Infrastructure.Authentication;
 
 namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 {
-    public static class UsersAndRolesSeeder
+    public class UsersAndRolesSeeder
     {
-        public static async Task Run(Contexts.AppDbContext context, ILogger logger)
+        public async Task Run(Contexts.AppDbContext context, ILogger logger)
         {
             if (await context.Roles.AnyAsync()) return;
 

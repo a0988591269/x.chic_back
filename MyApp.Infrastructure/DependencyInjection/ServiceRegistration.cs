@@ -2,7 +2,9 @@
 // using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyApp.Domain.Abstractions.Authentication;
 using MyApp.Domain.Interfaces;
+using MyApp.Infrastructure.Authentication;
 using MyApp.Infrastructure.JWT;
 using MyApp.Infrastructure.Persistence;
 using MyApp.Infrastructure.Persistence.Contexts;
@@ -38,6 +40,9 @@ namespace MyApp.Infrastructure.DependencyInjection
 
             services.Configure<JwtOptions>(config.GetSection("Jwt"));
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+            // PasswordHasher 注入
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
             return services;
         }

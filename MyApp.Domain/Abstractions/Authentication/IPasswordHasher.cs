@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Abstractions.Authentication
+namespace MyApp.Domain.Abstractions.Authentication
 {
     public interface IPasswordHasher
     {

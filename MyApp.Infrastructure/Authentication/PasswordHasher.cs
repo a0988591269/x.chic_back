@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using MyApp.Domain.Abstractions.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Authentication
 {
-    public static class PasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
-        private static readonly PasswordHasher<object> _hasher = new();
+        private readonly PasswordHasher<object> _hasher = new();
 
         // 註冊 / 修改密碼用
-        public static string Hash(string password)
+        public string Hash(string password)
         {
             return _hasher.HashPassword(null!, password);
         }
 
         // 登入驗證用
-        public static bool Verify(string password, string hashedPassword)
+        public bool Verify(string password, string hashedPassword)
         {
             var result = _hasher.VerifyHashedPassword(
                 null!,
