@@ -1,8 +1,7 @@
 ﻿using Dapper;
 using MediatR;
+using MyApp.Application.Commons.Interfaces.Authentication;
 using MyApp.Application.Commons.Results;
-using MyApp.Domain.Authentication;
-using MyApp.Domain.Contexts;
 using MyApp.Domain.Entities;
 
 namespace MyApp.Application.Features.Users.Signup

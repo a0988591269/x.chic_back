@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MyApp.Infrastructure.Persistence.Contexts;
 using MyApp.Domain.Entities;
-using MyApp.Domain.Authentication;
+using MyApp.Application.Commons.Interfaces.Authentication;
 
 namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 {

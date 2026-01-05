@@ -2,9 +2,8 @@
 // using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyApp.Application.Commons.Interfaces.Authentication;
 using MyApp.Application.Commons.Interfaces.JWT;
-using MyApp.Domain.Authentication;
-using MyApp.Domain.Contexts;
 using MyApp.Domain.Interfaces;
 using MyApp.Infrastructure.Authentication;
 using MyApp.Infrastructure.JWT;

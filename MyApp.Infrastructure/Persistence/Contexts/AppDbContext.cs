@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyApp.Domain.Contexts;
 using MyApp.Domain.Entities;
 
 namespace MyApp.Infrastructure.Persistence.Contexts

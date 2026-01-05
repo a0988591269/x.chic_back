@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyApp.Domain.Authentication;
+using MyApp.Application.Commons.Interfaces.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;

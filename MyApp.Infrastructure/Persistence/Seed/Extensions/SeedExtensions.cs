@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using MyApp.Domain.Authentication;
+using MyApp.Application.Commons.Interfaces.Authentication;
 using MyApp.Infrastructure.Persistence.Contexts;
 using MyApp.Infrastructure.Persistence.Seed.Seeders;
 

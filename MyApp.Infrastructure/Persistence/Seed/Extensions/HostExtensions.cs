@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MyApp.Domain.Authentication;
+using MyApp.Application.Commons.Interfaces.Authentication;
 using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Persistence.Seed.Extensions

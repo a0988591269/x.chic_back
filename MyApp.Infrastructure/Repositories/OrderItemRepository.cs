@@ -1,5 +1,6 @@
-﻿using MyApp.Domain.Contexts;
-using MyApp.Domain.Interfaces;
+﻿using MyApp.Domain.Interfaces;
+using MyApp.Infrastructure.Persistence.Contexts;
+
 namespace MyApp.Infrastructure.Repositories
 {
     public class OrderItemRepository : IOrderItemRepository

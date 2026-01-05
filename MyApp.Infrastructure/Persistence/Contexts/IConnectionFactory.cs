@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace MyApp.Domain.Contexts
+namespace MyApp.Infrastructure.Persistence.Contexts
 {
     /// <summary>
     /// 介面
