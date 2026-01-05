@@ -7,7 +7,6 @@ using MyApp.Application.Commons.Results;
 using MyApp.Application.Features.Users.Login;
 using MyApp.Application.Features.Users.Signup;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MyApp.API.Controllers
 {
