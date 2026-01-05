@@ -38,7 +38,7 @@ namespace MyApp.API.Controllers
             }
 
             // 寫入 HttpOnly Cookie
-            SetTokenCookie(result.Data.AccessToken);
+            SetTokenCookie(result.Data?.AccessToken ?? "");
 
             return Ok();
         }
