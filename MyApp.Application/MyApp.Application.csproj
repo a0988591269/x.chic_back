@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyApp.Infrastructure\MyApp.Infrastructure.csproj" />
-    <ProjectReference Include="..\MyApp.Shared\MyApp.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

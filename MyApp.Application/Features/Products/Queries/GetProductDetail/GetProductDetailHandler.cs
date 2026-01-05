@@ -5,7 +5,7 @@ using MyApp.Application.Features.Products.Queries.GetProductBySlug;
 using MyApp.Domain.Entities;
 using MyApp.Infrastructure.Persistence.Contexts;
 
-namespace MyApp.Application.Features.Products.Queries.GetProductById
+namespace MyApp.Application.Features.Products.Queries.GetProductDetail
 {
     public class GetProductDetailHandler : IRequestHandler<GetProductDetailQuery, Result<GetProductDetailDto>>
     {
@@ -51,7 +51,7 @@ namespace MyApp.Application.Features.Products.Queries.GetProductById
                 WHERE ProductVariantId IN (SELECT ProductVariantId FROM ProductVariants WHERE ProductId = @Id)
                 ORDER BY SortOrder;
             ";
-            var query = await conn.QueryMultipleAsync(sql, new { Id = request.Id });
+            var query = await conn.QueryMultipleAsync(sql, new { request.Id });
 
             var product = await query.ReadSingleOrDefaultAsync<GetProductDetailDto>();
             if(product == null)

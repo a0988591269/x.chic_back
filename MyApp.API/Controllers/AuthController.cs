@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MyApp.Application.Commons.Results;
 using MyApp.Application.Features.Users.Login;
+using MyApp.Application.Features.Users.Signup;
 using System.Security.Claims;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -40,6 +41,19 @@ namespace MyApp.API.Controllers
             SetTokenCookie(result.Data.AccessToken);
 
             return Ok();
+        }
+
+        [HttpPost("signup")]
+        public async Task<ActionResult> Signup([FromBody] SignupCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Data);
         }
 
         [HttpPost("logout")]
@@ -81,9 +95,11 @@ namespace MyApp.API.Controllers
             {
                 HttpOnly = true,
                 // 優化 5: Lax 模式對 UX 比較友善
-                SameSite = SameSiteMode.Lax,  // 不要用 Strict
+                //SameSite = SameSiteMode.Lax,  // 不要用 Strict
+                SameSite = SameSiteMode.None,
                 // 優化 6: 如果是開發環境且沒跑 HTTPS，可以考慮放寬 (但在 .NET 8 預設都有 HTTPS)
-                Secure = _env.IsDevelopment() ? false : true,
+                //Secure = _env.IsDevelopment() ? false : true,
+                Secure = true,
                 // 設定過期時間 (建議與 JWT exp 一致)
                 Expires = DateTime.UtcNow.AddHours(2)
             };

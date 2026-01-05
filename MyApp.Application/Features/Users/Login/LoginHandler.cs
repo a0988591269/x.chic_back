@@ -1,11 +1,11 @@
 ﻿using Dapper;
 using MediatR;
+using MyApp.Application.Abstractions.Authentication;
 using MyApp.Application.Commons.Results;
 using MyApp.Application.Features.Categories.Queries.GetCategory;
 using MyApp.Domain.Entities;
 using MyApp.Infrastructure.JWT;
 using MyApp.Infrastructure.Persistence.Contexts;
-using MyApp.Shared.Helpers;
 using System.Security.Claims;
 
 namespace MyApp.Application.Features.Users.Login
@@ -14,13 +14,16 @@ namespace MyApp.Application.Features.Users.Login
     {
         private readonly IConnectionFactory _factory;
         private readonly IJwtTokenGenerator _jwt;
+        private readonly IPasswordHasher _passwordHasher;
 
         public LoginHandler(
             IConnectionFactory factory,
-            IJwtTokenGenerator jwt)
+            IJwtTokenGenerator jwt,
+            IPasswordHasher passwordHasher)
         {
             _factory = factory;
             _jwt = jwt;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<Result<LoginDto>> Handle(LoginQuery request, CancellationToken cancellationToken)
@@ -36,7 +39,7 @@ namespace MyApp.Application.Features.Users.Login
                 ",
                 new { request.Email });
 
-            if (user == null || !PasswordHasher.Verify(request.Password, user.HashedPassword))
+            if (user == null || !_passwordHasher.Verify(request.Password, user.HashedPassword ?? ""))
                 return Result<LoginDto>.NotFound("帳號或密碼錯誤");
 
             // 撈 Roles
