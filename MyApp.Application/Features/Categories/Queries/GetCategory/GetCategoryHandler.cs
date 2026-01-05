@@ -1,9 +1,8 @@
-﻿using Azure.Core;
-using Dapper;
+﻿using Dapper;
 using MediatR;
 using MyApp.Application.Commons.Results;
 using MyApp.Application.Features.Products.Queries.GetProductBySlug;
-using MyApp.Infrastructure.Persistence.Contexts;
+using MyApp.Domain.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

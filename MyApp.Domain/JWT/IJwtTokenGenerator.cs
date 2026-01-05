@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MyApp.Domain.JWT
+{
+    public interface IJwtTokenGenerator
+    {
+        string GenerateToken(IEnumerable<Claim> claims);
+    }
+}

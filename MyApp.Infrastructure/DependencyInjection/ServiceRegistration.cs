@@ -2,8 +2,10 @@
 // using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyApp.Domain.Abstractions.Authentication;
+using MyApp.Domain.Authentication;
+using MyApp.Domain.Contexts;
 using MyApp.Domain.Interfaces;
+using MyApp.Domain.JWT;
 using MyApp.Infrastructure.Authentication;
 using MyApp.Infrastructure.JWT;
 using MyApp.Infrastructure.Persistence;

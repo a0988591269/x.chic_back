@@ -1,11 +1,9 @@
-﻿using MediatR;
+﻿using Dapper;
+using MediatR;
 using MyApp.Application.Commons.Results;
+using MyApp.Domain.Authentication;
+using MyApp.Domain.Contexts;
 using MyApp.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyApp.Application.Features.Users.Signup
 {

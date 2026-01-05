@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Application.Features.Products.Queries.GetProductBySlug;
 using MyApp.Application.Features.Products.Queries.GetProductDetail;

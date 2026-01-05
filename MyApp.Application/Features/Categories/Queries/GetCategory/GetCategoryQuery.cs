@@ -1,7 +1,5 @@
-﻿using Dapper;
-using MediatR;
+﻿using MediatR;
 using MyApp.Application.Commons.Results;
-using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Application.Features.Categories.Queries.GetCategory
 {

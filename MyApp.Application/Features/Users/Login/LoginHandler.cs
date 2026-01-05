@@ -1,11 +1,10 @@
 ﻿using Dapper;
 using MediatR;
-using MyApp.Application.Abstractions.Authentication;
 using MyApp.Application.Commons.Results;
-using MyApp.Application.Features.Categories.Queries.GetCategory;
+using MyApp.Domain.Authentication;
+using MyApp.Domain.Contexts;
 using MyApp.Domain.Entities;
-using MyApp.Infrastructure.JWT;
-using MyApp.Infrastructure.Persistence.Contexts;
+using MyApp.Domain.JWT;
 using System.Security.Claims;
 
 namespace MyApp.Application.Features.Users.Login

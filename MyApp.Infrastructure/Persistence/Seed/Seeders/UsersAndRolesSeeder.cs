@@ -2,13 +2,13 @@
 using Microsoft.Extensions.Logging;
 using MyApp.Infrastructure.Persistence.Contexts;
 using MyApp.Domain.Entities;
-using MyApp.Infrastructure.Authentication;
+using MyApp.Domain.Authentication;
 
 namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 {
-    public class UsersAndRolesSeeder
+    public static class UsersAndRolesSeeder
     {
-        public async Task Run(Contexts.AppDbContext context, ILogger logger)
+        public static async Task Run(AppDbContext context, ILogger logger, IPasswordHasher passwordHasher)
         {
             if (await context.Roles.AnyAsync()) return;
 
@@ -71,7 +71,7 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             {
                 Email = "admin@myapp.com",
                 Name = "Super Admin",
-                HashedPassword = PasswordHasher.Hash("12345678")
+                HashedPassword = passwordHasher.Hash("12345678")
             };
 
             // 建立會員
@@ -79,7 +79,7 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             {
                 Email = "customer@myapp.com",
                 Name = "Customer",
-                HashedPassword = PasswordHasher.Hash("12345678")
+                HashedPassword = passwordHasher.Hash("12345678")
             };
 
             context.Users.AddRange(admin, customer);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MyApp.Domain.Authentication;
 using MyApp.Infrastructure.Persistence.Contexts;
 using MyApp.Infrastructure.Persistence.Seed.Extensions;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ namespace MyApp.Infrastructure.Persistence.Seed
 {
     public static class DataSeeder
     {
-        public static async Task SeedAsync(Contexts.AppDbContext context, ILogger logger)
+        public static async Task SeedAsync(AppDbContext context, ILogger logger, IPasswordHasher passwordHasher)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -20,7 +21,7 @@ namespace MyApp.Infrastructure.Persistence.Seed
             {
                 logger.LogInformation("✅ [DB Seeder] Begin seeding process...");
 
-                await LogStepAsync("Roles & Users", async () => await context.SeedUsersAndRoles(logger), logger);
+                await LogStepAsync("Roles & Users", async () => await context.SeedUsersAndRoles(logger, passwordHasher), logger);
                 await LogStepAsync("Categories", async () => await context.SeedCategories(logger), logger);
                 await LogStepAsync("Products", async () => await context.SeedProducts(logger), logger);
 

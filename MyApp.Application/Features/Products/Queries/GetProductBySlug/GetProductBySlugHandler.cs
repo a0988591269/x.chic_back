@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using MediatR;
 using MyApp.Application.Commons.Results;
-using MyApp.Infrastructure.Persistence.Contexts;
+using MyApp.Domain.Contexts;
 
 namespace MyApp.Application.Features.Products.Queries.GetProductBySlug
 {

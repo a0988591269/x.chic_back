@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApp.Infrastructure.Persistence.Contexts
+namespace MyApp.Domain.Contexts
 {
     /// <summary>
     /// 介面

@@ -3,7 +3,6 @@ using MediatR;
 using MyApp.Application.Commons.Results;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces;
-using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Application.Features.Products.Queries.GetProductBySlug
 {
