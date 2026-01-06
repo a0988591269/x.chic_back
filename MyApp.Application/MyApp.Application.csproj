@@ -7,8 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Categories\Commands\" />
-    <Folder Include="Features\Products\Commands\" />
+    <Compile Remove="Features\Categories\Commands\**" />
+    <Compile Remove="Features\Products\Commands\**" />
+    <EmbeddedResource Remove="Features\Categories\Commands\**" />
+    <EmbeddedResource Remove="Features\Products\Commands\**" />
+    <None Remove="Features\Categories\Commands\**" />
+    <None Remove="Features\Products\Commands\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Features\ProductVariants\Commands\" />
   </ItemGroup>
 

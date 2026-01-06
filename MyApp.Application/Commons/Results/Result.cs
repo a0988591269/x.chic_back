@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace MyApp.Application.Commons.Results
 {
+    // 定義介面，讓 MediatR Pipeline (Behaviors) 可以通用處理
+    public interface IResult
+    {
+        bool IsSuccess { get; }
+        string Error { get; }
+        ResultStatus Status { get; }
+        IEnumerable<string> ValidationErrors { get; }
+    }
+
     // 定義狀態列舉
     public enum ResultStatus
     {
@@ -16,7 +25,7 @@ namespace MyApp.Application.Commons.Results
         Invalid     // 驗證錯誤
     }
 
-    public class Result
+    public class Result : IResult
     {
         // 是否成功
         public bool IsSuccess { get; }
@@ -88,6 +97,9 @@ namespace MyApp.Application.Commons.Results
             Data = default;
         }
 
+        // 允許: return myObject; 自動轉成 Result<T>.Success
+        public static implicit operator Result<T>(T data) => Success(data);
+
         // --- 靜態工廠方法 ---
 
         // 成功並回傳資料
@@ -107,5 +119,11 @@ namespace MyApp.Application.Commons.Results
 
         public new static Result<T> Invalid(IEnumerable<string> errors)
             => new(false, ResultStatus.Invalid, errors);
+
+        // 讓 Controller 不用寫 if-else，強迫處理兩種狀況
+        public TResult Match<TResult>(Func<T, TResult> onSuccess, Func<Result<T>, TResult> onFailure)
+        {
+            return IsSuccess ? onSuccess(Data!) : onFailure(this);
+        }
     }
 }

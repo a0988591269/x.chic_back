@@ -1,29 +1,37 @@
-﻿using Dapper;
-using MediatR;
+﻿using MediatR;
 using MyApp.Application.Commons.Results;
+using MyApp.Domain.Interfaces;
 
 namespace MyApp.Application.Features.Categories.Queries.GetCategory
 {
     public class GetCategoryHandler : IRequestHandler<GetCategoryQuery, Result<IEnumerable<GetCategoryDto>>>
     {
-        private readonly IConnectionFactory _factory;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public GetCategoryHandler(IConnectionFactory factory)
+        public GetCategoryHandler(ICategoryRepository categoryRepository)
         {
-            _factory = factory;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<Result<IEnumerable<GetCategoryDto>>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
         {
-            using var conn = _factory.GetConnection();
 
-            var sql = @" SELECT * FROM Categories ";
-            var category = await conn.QueryAsync<GetCategoryDto>(sql);
+            var categories = await _categoryRepository.GetAll();
 
-            if (category == null)
+            if (categories == null)
             {
                 return Result<IEnumerable<GetCategoryDto>>.NotFound();
             }
+
+            // 2. Mapping (Entity -> DTO)
+            // 這裡可以手動 Map，也可以用 AutoMapper / Mapster
+            var category = categories.Select(c => new GetCategoryDto(
+                c.CategoryId,
+                c.CategoryName,
+                c.CategoryEngName,
+                c.Description,
+                c.Slug
+            )).ToList();
 
             return Result<IEnumerable<GetCategoryDto>>.Success(category);
         }
