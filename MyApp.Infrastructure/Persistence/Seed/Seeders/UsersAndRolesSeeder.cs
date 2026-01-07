@@ -67,20 +67,10 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
             await context.SaveChangesAsync();
 
             // 建立管理員
-            var admin = new User
-            {
-                Email = "admin@myapp.com",
-                Name = "Super Admin",
-                HashedPassword = passwordHasher.Hash("12345678")
-            };
+            var admin = User.Create("admin@myapp.com", passwordHasher.Hash("12345678"), "Super Admin");
 
             // 建立會員
-            var customer = new User
-            {
-                Email = "customer@myapp.com",
-                Name = "Customer",
-                HashedPassword = passwordHasher.Hash("12345678")
-            };
+            var customer = User.Create("customer@myapp.com", passwordHasher.Hash("12345678"), "Customer");
 
             context.Users.AddRange(admin, customer);
             await context.SaveChangesAsync();
