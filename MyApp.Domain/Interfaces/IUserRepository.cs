@@ -5,5 +5,7 @@ namespace MyApp.Domain.Interfaces
     public interface IUserRepository 
     {
         Task<User?> GetUserByEmail(string Email);
+        Task<bool> IsEmailUniqueAsync(string email, CancellationToken token);
+        Task AddAsync(User user, CancellationToken token);
     }
 }

@@ -39,7 +39,7 @@ namespace MyApp.Domain.Entities
 
         public ProductVariant Variant { get; set; } = new ProductVariant();
 
-        public User User { get; set; } = new User();
+        public User User { get; set; }
 
         public OrderItem OrderItem { get; set; } = new OrderItem();
     }

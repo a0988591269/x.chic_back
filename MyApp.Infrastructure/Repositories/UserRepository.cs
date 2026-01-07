@@ -14,6 +14,11 @@ namespace MyApp.Infrastructure.Repositories
             _factory = factory;
         }
 
+        public Task AddAsync(User user, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<User?> GetUserByEmail(string Email)
         {
             using var conn = _factory.GetConnection();
@@ -27,6 +32,11 @@ namespace MyApp.Infrastructure.Repositories
                new { Email });
 
             return user;
+        }
+
+        public Task<bool> IsEmailUniqueAsync(string email, CancellationToken token)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -12,6 +12,33 @@ namespace MyApp.Domain.Entities
     public class User : BaseEntity
     {
         /// <summary>
+        /// 加入 Private Constructor
+        /// 這是給 EF Core 用的 (EF 需要用它來從資料庫還原物件)
+        /// 同時也阻止了外部使用 'new User()'
+        /// </summary>
+        private User() { }
+
+        /// <summary>
+        /// 靜態工廠方法 (唯一的公開建立入口)
+        /// </summary>
+        public static User Create(string email, string hashedPassword, string? name)
+        {
+            // 在這裡可以放入「防衛條款 (Guard Clauses)」
+            // 確保資料不合法時，根本無法建立物件
+            if (string.IsNullOrWhiteSpace(email)) throw new ArgumentException("Email is required");
+
+            return new User
+            {
+                Email = email,
+                HashedPassword = hashedPassword,
+                Name = name,
+                UserUuid = Guid.NewGuid(), // 可以在這裡明確賦值
+                Tier = 0,                  // 預設值明確化
+                Status = 1                 // 預設值明確化
+            };
+        }
+
+        /// <summary>
         /// 主鍵 (PK)
         /// </summary>
         [Key]
