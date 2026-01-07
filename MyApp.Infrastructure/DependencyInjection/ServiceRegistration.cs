@@ -35,9 +35,12 @@ namespace MyApp.Infrastructure.DependencyInjection
             // Dapper 注入介面
             services.AddSingleton<IConnectionFactory, ConnectionFactory>();
 
-            // Repository 注入
+            // 注入 Repository
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
 
             services.Configure<JwtOptions>(config.GetSection("Jwt"));
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
