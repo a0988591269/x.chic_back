@@ -2,42 +2,42 @@
 using MediatR;
 using MyApp.Application.Commons.Interfaces.Authentication;
 using MyApp.Application.Commons.Results;
+using MyApp.Domain.Constants;
 using MyApp.Domain.Entities;
+using MyApp.Domain.Interfaces;
 
 namespace MyApp.Application.Features.Users.Signup
 {
     public class SignupHandler : IRequestHandler<SignupCommand, Result<SignupDto>>
     {
-        //private readonly IConnectionFactory _factory;
-        //private readonly IDbContext _db;
-        //private readonly IPasswordHasher _passwordHasher;
+        private readonly IPasswordHasher _passwordHasher;
+        private readonly IUserRepository _userRepository;
 
-        //public SignupHandler(IConnectionFactory factory, IDbContext db, IPasswordHasher passwordHasher) 
-        //{
-        //    _factory = factory;
-        //    _db = db;
-        //    _passwordHasher = passwordHasher;
-        //}
+        public SignupHandler(IPasswordHasher passwordHasher, IUserRepository userRepository)
+        {
+            _passwordHasher = passwordHasher;
+            _userRepository = userRepository;
+        }
 
         public async Task<Result<SignupDto>> Handle(SignupCommand request, CancellationToken cancellationToken)
         {
-            //using var conn = _factory.GetConnection();
+            // 檢核是否重複註冊
+            var isUnique = await _userRepository.IsEmailUniqueAsync(request.Email, cancellationToken);
+            if (!isUnique)
+            {
+                return Result<SignupDto>.NotFound("重複註冊！");
+            }
 
-            //var check = await conn.ExecuteAsync(@" SELECT COUNT(*) FROM Users WHERE Email = @Email ", new { Email = request.Email });
-            //if(check > 0)
-            //{
-            //    return Result<SignupDto>.NotFound("重複註冊！");
-            //}
-            //var role = await conn.QueryFirstAsync<Role>(@" SELECT * FROM Roles WHERE Name = 'Customer'");
+            Random rd = new Random();
+            // 建立基本 User
+            var user = User.Create(request.Email, _passwordHasher.Hash(request.Password), $"x.chic.{rd.Next(0, 999999).ToString().PadLeft(6, '0')}");
 
-            ////var user = new User { Email = request.Email, Name = request.Name, HashedPassword = PasswordHasher.Hash(request.Passward), Tier = request.Tier };
-            //var user = new User { Email = request.Email, Name = "Customer", HashedPassword = _passwordHasher.Hash(request.Passward), Tier = 0 };
-            //var userRole = new UserRole { User = user, Role = role };
-            //_db.Set<User>().Add(user);
-            //_db.Set<UserRole>().Add(userRole);
-            //await _db.SaveChangesAsync();
+            // 建立基本 UserRole
+            user.AddRole(RoleId.Member);
 
-            return Result<SignupDto>.NotFound("註冊成功！");
+            await _userRepository.AddAsync(user, cancellationToken);
+
+            return Result<SignupDto>.Success(new SignupDto(user.UserId, user.Email));
         }
     }
 }

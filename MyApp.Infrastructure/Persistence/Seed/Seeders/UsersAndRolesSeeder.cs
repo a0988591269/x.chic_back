@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using MyApp.Infrastructure.Persistence.Contexts;
 using MyApp.Domain.Entities;
 using MyApp.Application.Commons.Interfaces.Authentication;
+using MyApp.Domain.Constants;
 
 namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 {
@@ -68,28 +69,30 @@ namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 
             // 建立管理員
             var admin = User.Create("admin@myapp.com", passwordHasher.Hash("12345678"), "Super Admin");
+            admin.AddRole(RoleId.Admin);
 
             // 建立會員
             var customer = User.Create("customer@myapp.com", passwordHasher.Hash("12345678"), "Customer");
+            admin.AddRole(RoleId.Member);
 
             context.Users.AddRange(admin, customer);
             await context.SaveChangesAsync();
 
-            // 建立關聯
-            var adminUserRole = new UserRole
-            {
-                UserId = admin.UserId,
-                RoleId = adminRole.RoleId
-            };
+            //// 建立關聯
+            //var adminUserRole = new UserRole
+            //{
+            //    UserId = admin.UserId,
+            //    RoleId = adminRole.RoleId
+            //};
 
-            var customerUserRole = new UserRole
-            {
-                UserId = customer.UserId,
-                RoleId = customerRole.RoleId
-            };
+            //var customerUserRole = new UserRole
+            //{
+            //    UserId = customer.UserId,
+            //    RoleId = customerRole.RoleId
+            //};
 
-            context.UserRoles.AddRange(adminUserRole, customerUserRole);
-            await context.SaveChangesAsync();
+            //context.UserRoles.AddRange(adminUserRole, customerUserRole);
+            //await context.SaveChangesAsync();
 
             logger.LogInformation("👑 Seeded Roles + Permissions + User");
         }

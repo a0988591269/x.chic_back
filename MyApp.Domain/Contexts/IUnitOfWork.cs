@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Features.Users.Signup
+namespace MyApp.Domain.Contexts
 {
-    public record SignupDto(long Id, string Email) { }
+    public interface IUnitOfWork : IDisposable
+    {
+
+    }
 }
