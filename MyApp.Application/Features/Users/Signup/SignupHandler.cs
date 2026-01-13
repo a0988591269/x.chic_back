@@ -27,7 +27,7 @@ namespace MyApp.Application.Features.Users.Signup
                 return Result<SignupDto>.Conflict("重複註冊！");
             }
 
-            string suffix = Guid.NewGuid().ToString("N").Split('-')[0];
+            string suffix = Guid.NewGuid().ToString().Split('-')[0];
             // 建立基本 User
             var user = User.Create(request.Email, _passwordHasher.Hash(request.Password), $"x.chic.{suffix}");
 
@@ -36,7 +36,7 @@ namespace MyApp.Application.Features.Users.Signup
 
             await _userRepository.AddAsync(user, cancellationToken);
 
-            return Result<SignupDto>.Created(new SignupDto(user.UserId, user.Email));
+            return Result<SignupDto>.Created(new SignupDto());
         }
     }
 }

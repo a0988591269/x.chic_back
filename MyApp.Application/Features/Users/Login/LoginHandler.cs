@@ -35,8 +35,15 @@ namespace MyApp.Application.Features.Users.Login
             // 驗證帳密
             var user = await _userRepository.GetUserByEmail(request.Email);
 
-            if (user == null || !_passwordHasher.Verify(request.Password, user.HashedPassword ?? ""))
-                return Result<LoginDto>.NotFound("帳號或密碼錯誤");
+            if (user == null)
+            {
+                return Result<LoginDto>.Failure("此信箱尚未註冊");
+            }
+
+            if(!_passwordHasher.Verify(request.Password, user.HashedPassword ?? ""))
+            {
+                return Result<LoginDto>.Failure("密碼檢核錯誤");
+            }
 
             // 撈 Roles
             var roles = await _roleRepository.GetRolesByUserId(user.UserId);
