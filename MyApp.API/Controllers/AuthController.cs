@@ -10,7 +10,7 @@ namespace MyApp.API.Controllers
     [ApiExplorerSettings(GroupName = "Auth")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
         private readonly ILogger<AuthController> _logger;
         private readonly IMediator _mediator;
@@ -28,15 +28,13 @@ namespace MyApp.API.Controllers
         {
             var result = await _mediator.Send(query);
 
-            if (!result.IsSuccess)
+            if (result.IsSuccess)
             {
-                return NotFound(result.Error);
+                // 寫入 HttpOnly Cookie
+                SetTokenCookie(result.Data?.AccessToken ?? "");
             }
 
-            // 寫入 HttpOnly Cookie
-            SetTokenCookie(result.Data?.AccessToken ?? "");
-
-            return Ok();
+            return HandleResult(result);
         }
 
         [HttpPost("signup")]
@@ -44,25 +42,20 @@ namespace MyApp.API.Controllers
         {
             var result = await _mediator.Send(command);
 
-            if (!result.IsSuccess)
-            {
-                return NotFound(result.Error);
-            }
-
-            return Ok(result.Data);
+            return HandleResult(result);
         }
 
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            // 優化 4: 清除 Cookie (將過期時間設為過去)
+            // 清除 Cookie (將過期時間設為過去)
             Response.Cookies.Delete("access_token", new CookieOptions
             {
                 Secure = true,
                 SameSite = SameSiteMode.None
             });
 
-            return Ok(new { message = "已登出" });
+            return NoContent();
         }
 
         [Authorize]
@@ -90,10 +83,10 @@ namespace MyApp.API.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                // 優化 5: Lax 模式對 UX 比較友善
+                // Lax 模式對 UX 比較友善
                 //SameSite = SameSiteMode.Lax,  // 不要用 Strict
                 SameSite = SameSiteMode.None,
-                // 優化 6: 如果是開發環境且沒跑 HTTPS，可以考慮放寬 (但在 .NET 8 預設都有 HTTPS)
+                // 如果是開發環境且沒跑 HTTPS，可以考慮放寬 (但在 .NET 8 預設都有 HTTPS)
                 //Secure = _env.IsDevelopment() ? false : true,
                 Secure = true,
                 // 設定過期時間 (建議與 JWT exp 一致)

@@ -7,7 +7,7 @@ namespace MyApp.API.Controllers
     [ApiExplorerSettings(GroupName = "Category")]
     [ApiController]
     [Route("api/[controller]")]
-    public class CategoryController : ControllerBase
+    public class CategoryController : BaseController
     {
         private readonly IMediator _mediator;
 
@@ -21,13 +21,7 @@ namespace MyApp.API.Controllers
         {
             var query = new GetCategoryQuery();
             var result = await _mediator.Send(query);
-
-            if (!result.IsSuccess)
-            {
-                return NotFound(result.Error);
-            }
-
-            return Ok(result.Data);
+            return HandleResult(result);
         }
     }
 }

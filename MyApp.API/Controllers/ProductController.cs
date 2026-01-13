@@ -8,7 +8,7 @@ namespace MyApp.API.Controllers
     [ApiExplorerSettings(GroupName = "Product")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : BaseController
     {
         private readonly IMediator _mediator;
 
@@ -26,12 +26,7 @@ namespace MyApp.API.Controllers
             };
             var result = await _mediator.Send(query);
 
-            if (!result.IsSuccess)
-            {
-                return NotFound(result.Error);
-            }
-
-            return Ok(result.Data);
+            return HandleResult(result);
         }
 
         [HttpGet("GetBySlug/{slug}")]
@@ -43,12 +38,7 @@ namespace MyApp.API.Controllers
             };
             var result = await _mediator.Send(query);
 
-            if (!result.IsSuccess)
-            {
-                return NotFound(result.Error);
-            }
-
-            return Ok(result.Data);
+            return HandleResult(result);
         }
 
         //[Authorize(Roles = "Admin")]

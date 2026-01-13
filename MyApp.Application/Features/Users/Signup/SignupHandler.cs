@@ -24,19 +24,19 @@ namespace MyApp.Application.Features.Users.Signup
             var isUnique = await _userRepository.IsEmailUniqueAsync(request.Email, cancellationToken);
             if (!isUnique)
             {
-                return Result<SignupDto>.NotFound("重複註冊！");
+                return Result<SignupDto>.Conflict("重複註冊！");
             }
 
-            Random rd = new Random();
+            string suffix = Guid.NewGuid().ToString("N").Split('-')[0];
             // 建立基本 User
-            var user = User.Create(request.Email, _passwordHasher.Hash(request.Password), $"x.chic.{rd.Next(0, 999999).ToString().PadLeft(6, '0')}");
+            var user = User.Create(request.Email, _passwordHasher.Hash(request.Password), $"x.chic.{suffix}");
 
             // 建立基本 UserRole
             user.AddRole(RoleId.Member);
 
             await _userRepository.AddAsync(user, cancellationToken);
 
-            return Result<SignupDto>.Success(new SignupDto(user.UserId, user.Email));
+            return Result<SignupDto>.Created(new SignupDto(user.UserId, user.Email));
         }
     }
 }
