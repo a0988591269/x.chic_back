@@ -1,8 +1,5 @@
-﻿using Dapper;
-using MediatR;
+﻿using MediatR;
 using MyApp.Application.Commons.Results;
-using MyApp.Domain.Entities;
-using MyApp.Domain.Interfaces;
 
 namespace MyApp.Application.Features.Products.Queries.GetProductBySlug
 {

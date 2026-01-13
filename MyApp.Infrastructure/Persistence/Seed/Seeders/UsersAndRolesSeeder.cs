@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MyApp.Infrastructure.Persistence.Contexts;
-using MyApp.Domain.Entities;
 using MyApp.Application.Commons.Interfaces.Authentication;
 using MyApp.Domain.Constants;
+using MyApp.Domain.Entities;
+using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Persistence.Seed.Seeders
 {

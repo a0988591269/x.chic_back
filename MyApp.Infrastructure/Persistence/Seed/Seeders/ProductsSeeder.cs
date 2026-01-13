@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MyApp.Infrastructure.Persistence.Contexts;
 using MyApp.Domain.Entities;
 
 namespace MyApp.Infrastructure.Persistence.Seed.Seeders

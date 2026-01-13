@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Connections;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using MyApp.Infrastructure.Persistence;
-using System.Data;
-using System.Reflection;
 using System.Text;
 
 namespace MyApp.API.Extensions
@@ -62,7 +56,7 @@ namespace MyApp.API.Extensions
                     ValidIssuer = jwtIssuer,
                     ValidAudience = jwtAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(jwtSecret))
+                        Encoding.UTF8.GetBytes(jwtSecret ?? ""))
                 };
 
                 // ⭐ 從 Cookie 讀 token

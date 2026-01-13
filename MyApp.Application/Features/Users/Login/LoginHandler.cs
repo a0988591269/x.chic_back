@@ -1,5 +1,4 @@
-﻿using Dapper;
-using MediatR;
+﻿using MediatR;
 using MyApp.Application.Commons.Interfaces.Authentication;
 using MyApp.Application.Commons.Interfaces.JWT;
 using MyApp.Application.Commons.Results;

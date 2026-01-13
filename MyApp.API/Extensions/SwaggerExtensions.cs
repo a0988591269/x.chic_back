@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using MyApp.Infrastructure.Persistence.Contexts;
-using MyApp.Infrastructure.Persistence.Seed;
 
 namespace MyApp.API.Extensions
 {

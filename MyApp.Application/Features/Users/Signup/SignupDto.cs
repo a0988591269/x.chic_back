@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyApp.Application.Features.Users.Signup
+﻿namespace MyApp.Application.Features.Users.Signup
 {
     public record SignupDto(long Id, string Email) { }
 }

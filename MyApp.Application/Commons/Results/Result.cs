@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyApp.Application.Commons.Results
+﻿namespace MyApp.Application.Commons.Results
 {
     // 定義介面，讓 MediatR Pipeline (Behaviors) 可以通用處理
     public interface IResult

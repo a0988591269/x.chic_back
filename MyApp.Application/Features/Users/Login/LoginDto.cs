@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyApp.Application.Features.Users.Login
+﻿namespace MyApp.Application.Features.Users.Login
 {
     public record LoginDto(string AccessToken);
 }

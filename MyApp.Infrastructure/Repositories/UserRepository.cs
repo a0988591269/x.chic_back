@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Microsoft.EntityFrameworkCore;
+using MyApp.Domain.Contexts;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces;
 using MyApp.Infrastructure.Persistence.Contexts;

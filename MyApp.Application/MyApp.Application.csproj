@@ -9,14 +9,13 @@
   <ItemGroup>
     <Compile Remove="Features\Categories\Commands\**" />
     <Compile Remove="Features\Products\Commands\**" />
+    <Compile Remove="Features\ProductVariants\Commands\**" />
     <EmbeddedResource Remove="Features\Categories\Commands\**" />
     <EmbeddedResource Remove="Features\Products\Commands\**" />
+    <EmbeddedResource Remove="Features\ProductVariants\Commands\**" />
     <None Remove="Features\Categories\Commands\**" />
     <None Remove="Features\Products\Commands\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\ProductVariants\Commands\" />
+    <None Remove="Features\ProductVariants\Commands\**" />
   </ItemGroup>
 
   <ItemGroup>

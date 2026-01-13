@@ -1,5 +1,5 @@
-﻿using MyApp.Domain.Interfaces;
-using MyApp.Infrastructure.Persistence.Contexts;
+﻿using MyApp.Domain.Contexts;
+using MyApp.Domain.Interfaces;
 
 namespace MyApp.Infrastructure.Repositories
 {

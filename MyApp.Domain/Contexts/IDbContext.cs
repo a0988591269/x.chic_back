@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MyApp.Domain.Entities;
 
-namespace MyApp.Infrastructure.Persistence.Contexts
+namespace MyApp.Domain.Contexts
 {
     public interface IDbContext : IDisposable
     {

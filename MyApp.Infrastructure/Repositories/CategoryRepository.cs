@@ -1,9 +1,9 @@
 ﻿using Dapper;
 using MyApp.Application.Commons.Results;
 using MyApp.Application.Features.Categories.Queries.GetCategory;
+using MyApp.Domain.Contexts;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces;
-using MyApp.Infrastructure.Persistence.Contexts;
 
 namespace MyApp.Infrastructure.Repositories
 {
