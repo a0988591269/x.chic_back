@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MyApp.Application.Commons.Interfaces.JWT;
+using MyApp.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -32,6 +33,31 @@ namespace MyApp.Infrastructure.JWT
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public List<Claim> BuildClaims(User user, IEnumerable<string> roles, IEnumerable<string> permissions)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim("user_uuid", user.UserUuid.ToString()),
+                new Claim(ClaimTypes.Name, user.Name ?? ""),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("tier", user.Tier.ToString())
+            };
+
+            // 多角色
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            foreach (var permission in permissions)
+            {
+                claims.Add(new Claim("permission", permission));
+            }
+
+            return claims;
         }
     }
 }

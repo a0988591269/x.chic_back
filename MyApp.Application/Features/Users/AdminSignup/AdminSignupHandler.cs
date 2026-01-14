@@ -1,19 +1,24 @@
 ﻿using MediatR;
 using MyApp.Application.Commons.Interfaces.Authentication;
-using MyApp.Application.Commons.Interfaces.JWT;
 using MyApp.Application.Commons.Results;
+using MyApp.Application.Features.Users.Signup;
 using MyApp.Domain.Constants;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MyApp.Application.Features.Users.Signup
+namespace MyApp.Application.Features.Users.AdminSignup
 {
-    public class SignupHandler : IRequestHandler<SignupCommand, Result<SignupDto>>
+    public class AdminSignupHandler : IRequestHandler<AdminSignupCommand, Result<AdminSigupDto>>
     {
         private readonly IPasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
 
-        public SignupHandler(
+        public AdminSignupHandler(
             IPasswordHasher passwordHasher,
             IUserRepository userRepository)
         {
@@ -21,13 +26,13 @@ namespace MyApp.Application.Features.Users.Signup
             _userRepository = userRepository;
         }
 
-        public async Task<Result<SignupDto>> Handle(SignupCommand request, CancellationToken cancellationToken)
+        public async Task<Result<AdminSigupDto>> Handle(AdminSignupCommand request, CancellationToken cancellationToken)
         {
             // 檢核是否重複註冊
             var isUnique = await _userRepository.IsEmailUniqueAsync(request.Email, cancellationToken);
             if (!isUnique)
             {
-                return Result<SignupDto>.Conflict("重複註冊！");
+                return Result<AdminSigupDto>.Conflict("重複註冊！");
             }
 
             string suffix = Guid.NewGuid().ToString().Split('-')[0];
@@ -39,7 +44,7 @@ namespace MyApp.Application.Features.Users.Signup
 
             await _userRepository.AddAsync(user, cancellationToken);
 
-            return Result<SignupDto>.Created(new SignupDto());
+            return Result<AdminSigupDto>.Created(new AdminSigupDto());
         }
     }
 }

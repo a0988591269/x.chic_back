@@ -2,6 +2,6 @@
 {
     public interface IUserRoleRepository
     {
-
+        Task<IEnumerable<string>> GetRolesByUserId(long userId);
     }
 }

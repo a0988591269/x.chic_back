@@ -13,20 +13,5 @@ namespace MyApp.Infrastructure.Repositories
         {
             _factory = factory;
         }
-
-        public async Task<IEnumerable<string>> GetRolesByUserId(long UserId)
-        {
-            using var conn = _factory.GetConnection();
-
-            var roles = await conn.QueryAsync<string>(
-                @"
-                    SELECT r.Name
-                    FROM UserRoles ur
-                    JOIN Roles r ON ur.RoleId = r.RoleId
-                    WHERE ur.UserId = @UserId
-                ",
-                new { UserId });
-            return roles;
-        }
     }
 }
