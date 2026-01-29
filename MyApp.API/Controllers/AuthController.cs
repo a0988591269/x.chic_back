@@ -82,13 +82,13 @@ namespace MyApp.API.Controllers
         {
             var cookieOptions = new CookieOptions
             {
+                // 安全核心：讓 JavaScript (包含惡意腳本) 讀不到 Cookie，防 XSS
                 HttpOnly = true,
-                // Lax 模式對 UX 比較友善
-                //SameSite = SameSiteMode.Lax,  // 不要用 Strict
-                SameSite = SameSiteMode.None,
-                // 如果是開發環境且沒跑 HTTPS，可以考慮放寬 (但在 .NET 8 預設都有 HTTPS)
-                //Secure = _env.IsDevelopment() ? false : true,
-                Secure = true,
+                // 正式環境 (HTTPS) -> 必須為 true
+                // 開發環境 (HTTP)  -> 必須為 false (否則瀏覽器會拒收)
+                Secure = !_env.IsDevelopment(),
+                // 使用 Lax (預設) 或 Strict 即可，不要設為 None (不安全的Cors)
+                SameSite = SameSiteMode.Lax,
                 // 設定過期時間 (建議與 JWT exp 一致)
                 Expires = DateTime.UtcNow.AddHours(2)
             };

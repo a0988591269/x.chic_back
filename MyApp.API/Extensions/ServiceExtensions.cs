@@ -22,16 +22,16 @@ namespace MyApp.API.Extensions
             //    });
             //});
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("NuxtApp", policy =>
-                {
-                    policy.WithOrigins("http://localhost:3000") // ❌ 絕對不能寫 "*"
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials();                  // 🔥 關鍵：允許帶 Cookie
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("NuxtApp", policy =>
+            //    {
+            //        policy.WithOrigins("http://localhost:3000") // ❌ 絕對不能寫 "*"
+            //              .AllowAnyHeader()
+            //              .AllowAnyMethod()
+            //              .AllowCredentials();                  // 🔥 關鍵：允許帶 Cookie
+            //    });
+            //});
         }
 
         /// <summary>

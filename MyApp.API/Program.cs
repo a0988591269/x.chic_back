@@ -13,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region 自定義服務
-builder.Services.ConfigureCors();
+//builder.Services.ConfigureCors();
 // 單一資料庫
 //builder.Services.AddDapperSingle(builder.Configuration);
 // 註冊 Application 層 DI
@@ -29,7 +29,7 @@ var app = builder.Build();
 
 #region 自定義運行
 //app.UseCors("AllowOrigin");
-app.UseCors("NuxtApp");
+//app.UseCors("NuxtApp");
 await app.SeedDataAsync();
 app.UseSwaggerUIExtensions();
 app.UseStaticFilesExtensions();
