@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Application.Features.Users.AdminSignup;
+using MyApp.Application.Features.Users.GetAllUsers;
 
 namespace MyApp.API.Controllers
 {
@@ -14,6 +15,14 @@ namespace MyApp.API.Controllers
         public AdminController(IMediator mediator) 
         {
             _mediator = mediator;
+        }
+
+        [HttpPost("getAllUsers")]
+        public async Task<ActionResult> GetAllUsers([FromBody] GetAllUsersQuery command)
+        {
+            var result = await _mediator.Send(command);
+
+            return HandleResult(result);
         }
 
         [HttpPost("signup")]

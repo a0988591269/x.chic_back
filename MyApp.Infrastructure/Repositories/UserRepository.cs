@@ -23,6 +23,19 @@ namespace MyApp.Infrastructure.Repositories
             _db.SaveChanges();
         }
 
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            using var conn = _factory.GetConnection();
+
+            var users = await conn.QueryAsync<User>(
+                @"
+                    SELECT * 
+                    FROM Users
+                "
+            );
+            return users;
+        }
+
         public async Task<User?> GetUserByEmail(string email)
         {
             using var conn = _factory.GetConnection();
